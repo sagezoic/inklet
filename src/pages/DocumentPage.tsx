@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "convex/react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -12,6 +13,7 @@ import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { Editor } from "../features/editor/Editor";
 import { useAutosave } from "../features/editor/useAutosave";
+import { KnowledgeSidebar } from "../features/knowledge/KnowledgeSidebar";
 import { formatRelativeTime } from "../lib/formatRelativeTime";
 import { useNow } from "../lib/useNow";
 
@@ -64,6 +66,7 @@ function DocumentEditor({
 
   const [editingTitle, setEditingTitle] = useState(false);
   const [titleDraft, setTitleDraft] = useState(title);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const committedTitleRef = useRef(title);
 
@@ -129,6 +132,26 @@ function DocumentEditor({
   return (
     <div className="flex min-h-svh flex-col bg-paper">
       <header className="flex items-center gap-4 border-b border-hairline px-6 py-4">
+        <button
+          type="button"
+          onClick={() => {
+            setSidebarOpen((open) => !open);
+          }}
+          className="shrink-0 rounded-md p-1.5 text-muted transition-colors hover:bg-hairline/60 hover:text-ink"
+          aria-label={
+            sidebarOpen
+              ? "Collapse knowledge sidebar"
+              : "Expand knowledge sidebar"
+          }
+          aria-expanded={sidebarOpen}
+        >
+          {sidebarOpen ? (
+            <PanelLeftClose className="size-4" aria-hidden />
+          ) : (
+            <PanelLeftOpen className="size-4" aria-hidden />
+          )}
+        </button>
+
         <Link
           to="/dashboard"
           className="shrink-0 font-sans text-sm text-muted underline-offset-4 hover:text-ink hover:underline"
@@ -167,11 +190,17 @@ function DocumentEditor({
         </p>
       </header>
 
-      <main className="flex flex-1 justify-center px-4 py-8 sm:px-6">
-        <div className="w-full max-w-[760px] rounded-2xl border border-hairline bg-surface p-6 shadow-soft sm:p-8">
-          <Editor initialHtml={content} onChange={onChange} />
-        </div>
-      </main>
+      <div className="flex min-h-0 flex-1">
+        {sidebarOpen ? (
+          <KnowledgeSidebar documentId={documentId} />
+        ) : null}
+
+        <main className="flex min-w-0 flex-1 justify-center overflow-y-auto px-4 py-8 sm:px-6">
+          <div className="w-full max-w-[760px] rounded-2xl border border-hairline bg-surface p-6 shadow-soft sm:p-8">
+            <Editor initialHtml={content} onChange={onChange} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
