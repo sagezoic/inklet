@@ -1,7 +1,7 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation, usePaginatedQuery } from "convex/react";
 import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
@@ -10,6 +10,7 @@ import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Dialog } from "../components/ui/Dialog";
 import { formatRelativeTime } from "../lib/formatRelativeTime";
+import { useNow } from "../lib/useNow";
 
 const EXCERPT_MAX = 160;
 
@@ -25,21 +26,6 @@ function excerptFromContent(content: string): string {
     return plain;
   }
   return `${plain.slice(0, EXCERPT_MAX).trimEnd()}…`;
-}
-
-function useNow(intervalMs = 30_000): number {
-  const [now, setNow] = useState(() => Date.now());
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      setNow(Date.now());
-    }, intervalMs);
-    return () => {
-      window.clearInterval(id);
-    };
-  }, [intervalMs]);
-
-  return now;
 }
 
 type PendingDelete = {

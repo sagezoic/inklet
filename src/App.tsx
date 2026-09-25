@@ -3,7 +3,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicOnlyRoute } from "./components/PublicOnlyRoute";
 import { AuthPage } from "./pages/AuthPage";
 import { DashboardPage } from "./pages/DashboardPage";
-import { DocumentPlaceholderPage } from "./pages/DocumentPlaceholderPage";
+import { DocumentPage } from "./pages/DocumentPage";
 import { LandingPage } from "./pages/LandingPage";
 
 export default function App() {
@@ -16,7 +16,7 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/documents/:id" element={<DocumentPlaceholderPage />} />
+          <Route path="/documents/:id" element={<DocumentPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

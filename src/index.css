@@ -60,3 +60,88 @@ h3,
   background: color-mix(in srgb, var(--color-accent) 18%, transparent);
   color: var(--color-ink);
 }
+
+/* TipTap document body */
+.prose-inklet {
+  min-height: 60vh;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+}
+
+.prose-inklet .ProseMirror {
+  min-height: 60vh;
+  outline: none;
+}
+
+.prose-inklet .ProseMirror p {
+  margin: 0 0 1em;
+}
+
+.prose-inklet .ProseMirror h1,
+.prose-inklet .ProseMirror h2,
+.prose-inklet .ProseMirror h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 1.4em 0 0.5em;
+  color: var(--color-ink);
+}
+
+.prose-inklet .ProseMirror h1 {
+  font-size: 1.85rem;
+}
+
+.prose-inklet .ProseMirror h2 {
+  font-size: 1.45rem;
+}
+
+.prose-inklet .ProseMirror h3 {
+  font-size: 1.2rem;
+}
+
+.prose-inklet .ProseMirror ul,
+.prose-inklet .ProseMirror ol {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+
+.prose-inklet .ProseMirror ul {
+  list-style-type: disc;
+}
+
+.prose-inklet .ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.prose-inklet .ProseMirror li {
+  margin: 0.25em 0;
+}
+
+.prose-inklet .ProseMirror li p {
+  margin: 0;
+}
+
+.prose-inklet .ProseMirror blockquote {
+  margin: 0 0 1em;
+  padding: 0.15em 0 0.15em 1em;
+  border-left: 1px solid var(--color-hairline);
+  color: var(--color-muted);
+}
+
+.prose-inklet .ProseMirror a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-inklet .ProseMirror p.is-editor-empty:first-child::before,
+.prose-inklet .ProseMirror .is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--color-muted);
+  font-family: var(--font-serif);
+}
