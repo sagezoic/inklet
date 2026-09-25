@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "convex/react";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import type { Editor as TiptapEditor } from "@tiptap/react";
+import {
+  PanelLeftClose,
+  PanelLeftOpen,
+  PanelRightClose,
+  PanelRightOpen,
+} from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -11,6 +17,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { ChatSidebar } from "../features/chat/ChatSidebar";
 import { Editor } from "../features/editor/Editor";
 import { useAutosave } from "../features/editor/useAutosave";
 import { KnowledgeSidebar } from "../features/knowledge/KnowledgeSidebar";
@@ -67,6 +74,8 @@ function DocumentEditor({
   const [editingTitle, setEditingTitle] = useState(false);
   const [titleDraft, setTitleDraft] = useState(title);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [chatOpen, setChatOpen] = useState(true);
+  const [editor, setEditor] = useState<TiptapEditor | null>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const committedTitleRef = useRef(title);
 
@@ -188,6 +197,22 @@ function DocumentEditor({
         <p className="shrink-0 font-sans text-xs text-muted" aria-live="polite">
           {saveLabel}
         </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            setChatOpen((open) => !open);
+          }}
+          className="shrink-0 rounded-md p-1.5 text-muted transition-colors hover:bg-hairline/60 hover:text-ink"
+          aria-label={chatOpen ? "Collapse AI chat" : "Expand AI chat"}
+          aria-expanded={chatOpen}
+        >
+          {chatOpen ? (
+            <PanelRightClose className="size-4" aria-hidden />
+          ) : (
+            <PanelRightOpen className="size-4" aria-hidden />
+          )}
+        </button>
       </header>
 
       <div className="flex min-h-0 flex-1">
@@ -197,9 +222,17 @@ function DocumentEditor({
 
         <main className="flex min-w-0 flex-1 justify-center overflow-y-auto px-4 py-8 sm:px-6">
           <div className="w-full max-w-[760px] rounded-2xl border border-hairline bg-surface p-6 shadow-soft sm:p-8">
-            <Editor initialHtml={content} onChange={onChange} />
+            <Editor
+              initialHtml={content}
+              onChange={onChange}
+              onEditor={setEditor}
+            />
           </div>
         </main>
+
+        {chatOpen ? (
+          <ChatSidebar documentId={documentId} editor={editor} />
+        ) : null}
       </div>
     </div>
   );
