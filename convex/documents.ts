@@ -44,15 +44,14 @@ export const get = authedQuery({
   returns: v.union(documentFieldsValidator, v.null()),
   handler: async (ctx, args) => {
     const existing = await ctx.db.get("documents", args.documentId);
-    if (existing === null) {
+    if (existing === null || existing.ownerId !== ctx.userId) {
       return null;
     }
-    const document = await getOwnedDocument(ctx, args.documentId);
     return {
-      _id: document._id,
-      title: document.title,
-      content: document.content,
-      updatedAt: document.updatedAt,
+      _id: existing._id,
+      title: existing.title,
+      content: existing.content,
+      updatedAt: existing.updatedAt,
     };
   },
 });
