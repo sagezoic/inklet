@@ -1,10 +1,14 @@
 "use node";
 
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { GoogleGenAI, Type } from "@google/genai";
+import { ApiError, GoogleGenAI, Type } from "@google/genai";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { action, env } from "./_generated/server";
+
+const GEMINI_MODEL = "gemini-3.8-flash";
+const MAX_GENERATE_ATTEMPTS = 3;
+const RETRY_DELAYS_MS = [500, 1000] as const;
 
 const EDIT_TYPES = [
   "none",
@@ -129,6 +133,41 @@ function coerceChatResult(raw: unknown): ChatResult {
   };
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function getErrorStatus(error: unknown): number | undefined {
+  if (error instanceof ApiError) {
+    return error.status;
+  }
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "status" in error &&
+    typeof error.status === "number"
+  ) {
+    return error.status;
+  }
+  return undefined;
+}
+
+function isTransientGeminiError(error: unknown): boolean {
+  const status = getErrorStatus(error);
+  if (status === 429 || status === 500 || status === 503) {
+    return true;
+  }
+  if (!(error instanceof Error)) {
+    return false;
+  }
+  const message = error.message;
+  return (
+    message.includes("UNAVAILABLE") || message.includes("RESOURCE_EXHAUSTED")
+  );
+}
+
 export const chat = action({
   args: {
     documentId: v.id("documents"),
@@ -205,16 +244,32 @@ export const chat = action({
     let responseText: string | undefined;
     try {
       const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: userContents,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          responseMimeType: "application/json",
-          responseSchema,
-        },
-      });
-      responseText = response.text;
+      for (let attempt = 0; attempt < MAX_GENERATE_ATTEMPTS; attempt++) {
+        try {
+          const response = await ai.models.generateContent({
+            model: GEMINI_MODEL,
+            contents: userContents,
+            config: {
+              systemInstruction: SYSTEM_INSTRUCTION,
+              responseMimeType: "application/json",
+              responseSchema,
+            },
+          });
+          responseText = response.text;
+          geminiError = undefined;
+          break;
+        } catch (error) {
+          geminiError = error;
+          const canRetry =
+            isTransientGeminiError(error) &&
+            attempt < MAX_GENERATE_ATTEMPTS - 1;
+          if (!canRetry) {
+            throw error;
+          }
+          const delayMs = RETRY_DELAYS_MS[attempt] ?? 1000;
+          await sleep(delayMs);
+        }
+      }
     } catch (error) {
       console.error(error);
       geminiError = error;
