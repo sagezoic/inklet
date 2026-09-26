@@ -17,6 +17,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { AccountMenu } from "../components/AccountMenu";
 import { ChatSidebar } from "../features/chat/ChatSidebar";
 import { Editor } from "../features/editor/Editor";
 import { useAutosave } from "../features/editor/useAutosave";
@@ -213,6 +214,8 @@ function DocumentEditor({
             <PanelRightOpen className="size-4" aria-hidden />
           )}
         </button>
+
+        <AccountMenu />
       </header>
 
       <div className="flex min-h-0 flex-1">
