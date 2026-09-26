@@ -1,4 +1,3 @@
-import { useAuthActions } from "@convex-dev/auth/react";
 import { useMutation, usePaginatedQuery } from "convex/react";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -6,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { AccountMenu } from "../components/AccountMenu";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Dialog } from "../components/ui/Dialog";
@@ -34,7 +34,6 @@ type PendingDelete = {
 };
 
 export function DashboardPage() {
-  const { signOut } = useAuthActions();
   const navigate = useNavigate();
   const now = useNow();
   const createDocument = useMutation(api.documents.create);
@@ -92,14 +91,7 @@ export function DashboardPage() {
           <Button pending={creating} onClick={() => void handleCreate()}>
             New document
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              void signOut();
-            }}
-          >
-            Sign out
-          </Button>
+          <AccountMenu />
         </div>
       </header>
 

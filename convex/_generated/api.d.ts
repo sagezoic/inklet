@@ -16,6 +16,7 @@ import type * as http from "../http.js";
 import type * as knowledge from "../knowledge.js";
 import type * as lib_access from "../lib/access.js";
 import type * as lib_customFunctions from "../lib/customFunctions.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   knowledge: typeof knowledge;
   "lib/access": typeof lib_access;
   "lib/customFunctions": typeof lib_customFunctions;
+  users: typeof users;
 }>;
 
 /**
