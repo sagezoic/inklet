@@ -1,5 +1,6 @@
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useState, type FormEvent } from "react";
+import { useConvexAuth } from "convex/react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
@@ -7,12 +8,68 @@ import { Input } from "../components/ui/Input";
 
 type AuthFlow = "signIn" | "signUp";
 
+function errorMessage(err: unknown): string {
+  return err instanceof Error ? err.message : "Something went wrong. Try again.";
+}
+
+type SignIn = (
+  provider: "password",
+  params: FormData,
+) => Promise<{ signingIn: boolean }>;
+
+async function signInWithSession(
+  signIn: SignIn,
+  formData: FormData,
+  flow: AuthFlow,
+): Promise<boolean> {
+  let signupError: unknown;
+  try {
+    const result = await signIn("password", formData);
+    if (result.signingIn || flow === "signIn") {
+      return result.signingIn;
+    }
+  } catch (err) {
+    if (flow !== "signUp" || /invalid password/i.test(errorMessage(err))) {
+      throw err;
+    }
+    signupError = err;
+  }
+
+  formData.set("flow", "signIn");
+  try {
+    const retry = await signIn("password", formData);
+    return retry.signingIn;
+  } catch (retryErr) {
+    throw signupError ?? retryErr;
+  }
+}
+
 export function AuthPage() {
   const { signIn } = useAuthActions();
+  const { isAuthenticated } = useConvexAuth();
   const navigate = useNavigate();
   const [flow, setFlow] = useState<AuthFlow>("signIn");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [awaitingSession, setAwaitingSession] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      void navigate("/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (!awaitingSession || isAuthenticated) {
+      return;
+    }
+    const timeout = window.setTimeout(() => {
+      setAwaitingSession(false);
+      setPending(false);
+      setError("Could not finish signing in. Try again.");
+    }, 8000);
+    return () => window.clearTimeout(timeout);
+  }, [awaitingSession, isAuthenticated]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,13 +80,19 @@ export function AuthPage() {
     formData.set("flow", flow);
 
     try {
-      await signIn("password", formData);
-      void navigate("/dashboard");
+      const signedIn = await signInWithSession(signIn, formData, flow);
+      if (!signedIn) {
+        setError(
+          flow === "signUp"
+            ? "Your account was created, but you were not signed in. Sign in to continue."
+            : "Could not sign in. Check your email and password.",
+        );
+        setPending(false);
+        return;
+      }
+      setAwaitingSession(true);
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Something went wrong. Try again.";
-      setError(message);
-    } finally {
+      setError(errorMessage(err));
       setPending(false);
     }
   }
