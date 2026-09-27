@@ -25,8 +25,8 @@ createRoot(document.getElementById("root")!).render(
         toastOptions={{
           classNames: {
             toast:
-              "font-serif !bg-surface !text-ink !border-hairline !shadow-soft",
-            description: "!text-muted",
+              "font-sans !bg-white !text-[#1A1C1F] !border-[#E5E7EB] !rounded-[14px] !shadow-[0_12px_40px_rgba(15,17,21,0.06),0_2px_8px_rgba(15,17,21,0.04)]",
+            description: "!text-[#5C6068]",
           },
         }}
       />

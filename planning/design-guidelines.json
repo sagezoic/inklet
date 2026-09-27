@@ -1,0 +1,1261 @@
+{
+  "meta": {
+    "name": "Inklet Design System",
+    "version": "1.0.0",
+    "source": "Reference screenshot analysis — rich-text message composer / document editor",
+    "lastUpdated": "2026-09-27",
+    "aesthetic": "Tactile minimalism / Neo-tactile precision UI",
+    "summary": "A calm, premium productivity interface: soft off-white canvas, floating pure-white elevated surfaces, embossed micro-shadows on active controls, and a floating obsidian action dock anchoring the dual-tone architecture."
+  },
+  "designDirection": {
+    "philosophy": "Tactile minimalism — interfaces should feel physical and touchable without visual noise. Soft elevation, hairline borders, and restrained contrast create calm focus. The dark dock is the single strong contrast anchor.",
+    "principles": [
+      "Airy negative space; never densify chrome",
+      "Floating white sheets on pale canvas, not flat full-bleed panels",
+      "Active controls are embossed (raised + soft shadow), not filled with brand color",
+      "Hairline borders and soft ambient shadows over heavy outlines",
+      "Dual-tone: light workspace for content, dark dock for actions",
+      "Micro-indicators (corner badges, mention chips) over large status banners",
+      "Rounded geometry throughout — pills for actions, 12–24px for cards"
+    ],
+    "do": [
+      "Use soft off-white/light-gray page canvas with pure white elevated cards",
+      "Apply embossed micro-shadows on active tactile toggles (e.g. Bold B)",
+      "Keep dock icons light-on-dark with even spacing and subtle dividers",
+      "Place status badges at media-card corners (success check, loading spinner)",
+      "Render @mentions as subtle gray pills inline with body text"
+    ],
+    "dont": [
+      "Do not use purple-to-indigo gradients or glow-heavy neon accents",
+      "Do not flatten the dock into a light toolbar — preserve obsidian contrast",
+      "Do not use heavy Material elevation stacks or multi-layer dramatic shadows",
+      "Do not fill active format buttons with saturated brand color fills",
+      "Do not use sharp 0-radius edges or newspaper-style dense columns"
+    ]
+  },
+  "typography": {
+    "headingFont": {
+      "family": "Playfair Display",
+      "fallback": ["Georgia", "Times New Roman", "serif"],
+      "googleFontsImportUrl": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap",
+      "cssStack": "'Playfair Display', Georgia, 'Times New Roman', serif",
+      "weights": {
+        "regular": 400,
+        "medium": 500,
+        "semiBold": 600,
+        "bold": 700
+      },
+      "styles": ["normal", "italic"],
+      "usage": "Display headlines, marketing hero titles, empty-state titles, and editorial moments. Prefer for expressive brand statements and titles.",
+      "notes": "Classic editorial display serif with rich stroke contrast and expressive italics."
+    },
+    "bodyFont": {
+      "family": "Source Serif 4",
+      "fallback": ["Georgia", "Times New Roman", "serif"],
+      "googleFontsImportUrl": "https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap",
+      "cssStack": "'Source Serif 4', Georgia, 'Times New Roman', serif",
+      "weights": {
+        "light": 300,
+        "regular": 400,
+        "medium": 500,
+        "semiBold": 600,
+        "bold": 700
+      },
+      "usage": "Document prose, editor body text, long-form content, and reading typography.",
+      "notes": "Literary reading serif optimized for digital reading and document composition."
+    },
+    "uiFont": {
+      "family": "System Sans",
+      "fallback": ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+      "cssStack": "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif",
+      "usage": "UI chrome, toolbar labels, buttons, mentions, form inputs, metadata, and captions."
+    },
+    "combinedGoogleFontsImportUrl": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap",
+    "scale": {
+      "display": {
+        "fontFamily": "heading",
+        "fontSize": "3.5rem",
+        "lineHeight": 1.1,
+        "fontWeight": 400,
+        "letterSpacing": "-0.02em",
+        "usage": "Hero brand moments, landing display"
+      },
+      "h1": {
+        "fontFamily": "heading",
+        "fontSize": "2.25rem",
+        "lineHeight": 1.2,
+        "fontWeight": 400,
+        "letterSpacing": "-0.015em",
+        "usage": "Page titles, modal titles (editorial)"
+      },
+      "h2": {
+        "fontFamily": "body",
+        "fontSize": "1.5rem",
+        "lineHeight": 1.3,
+        "fontWeight": 600,
+        "letterSpacing": "-0.01em",
+        "usage": "Section headers in app chrome"
+      },
+      "h3": {
+        "fontFamily": "body",
+        "fontSize": "1.125rem",
+        "lineHeight": 1.4,
+        "fontWeight": 600,
+        "letterSpacing": "-0.005em",
+        "usage": "Card titles, dialog headings"
+      },
+      "bodyLarge": {
+        "fontFamily": "body",
+        "fontSize": "1.125rem",
+        "lineHeight": 1.65,
+        "fontWeight": 400,
+        "letterSpacing": "0",
+        "usage": "Composer body text, primary reading content"
+      },
+      "body": {
+        "fontFamily": "body",
+        "fontSize": "0.9375rem",
+        "lineHeight": 1.55,
+        "fontWeight": 400,
+        "letterSpacing": "0",
+        "usage": "Default UI copy, form labels adjacent to inputs"
+      },
+      "bodySmall": {
+        "fontFamily": "body",
+        "fontSize": "0.8125rem",
+        "lineHeight": 1.5,
+        "fontWeight": 400,
+        "letterSpacing": "0.005em",
+        "usage": "Secondary descriptions, helper text"
+      },
+      "caption": {
+        "fontFamily": "body",
+        "fontSize": "0.75rem",
+        "lineHeight": 1.4,
+        "fontWeight": 500,
+        "letterSpacing": "0.01em",
+        "usage": "Timestamps, metadata, toolbar micro-labels"
+      },
+      "microTag": {
+        "fontFamily": "body",
+        "fontSize": "0.6875rem",
+        "lineHeight": 1.3,
+        "fontWeight": 600,
+        "letterSpacing": "0.02em",
+        "usage": "Status tags, badge labels, mention chip text at compact size"
+      }
+    }
+  },
+  "colorPalette": {
+    "surfaces": {
+      "canvas": {
+        "hex": "#F3F4F6",
+        "rgba": "rgba(243, 244, 246, 1)",
+        "role": "Page / workspace background — soft light gray off-white"
+      },
+      "surface": {
+        "hex": "#FFFFFF",
+        "rgba": "rgba(255, 255, 255, 1)",
+        "role": "Primary elevated card / editor sheet"
+      },
+      "surfaceMuted": {
+        "hex": "#F8F9FA",
+        "rgba": "rgba(248, 249, 250, 1)",
+        "role": "Inset wells, subtle secondary panels"
+      },
+      "surfaceHover": {
+        "hex": "#F1F2F4",
+        "rgba": "rgba(241, 242, 244, 1)",
+        "role": "List row / menu item hover wash"
+      },
+      "surfaceActive": {
+        "hex": "#EBECEF",
+        "rgba": "rgba(235, 236, 239, 1)",
+        "role": "Pressed / selected light surface (tactile toggle face)"
+      },
+      "overlay": {
+        "hex": "#0F1115",
+        "rgba": "rgba(15, 17, 21, 0.45)",
+        "role": "Modal backdrop scrim"
+      },
+      "overlayBlur": {
+        "hex": "#0F1115",
+        "rgba": "rgba(15, 17, 21, 0.28)",
+        "role": "Backdrop with blur — pair with backdrop-filter"
+      }
+    },
+    "ink": {
+      "primary": {
+        "hex": "#1A1C1F",
+        "rgba": "rgba(26, 28, 31, 1)",
+        "role": "Primary body text / near-black ink"
+      },
+      "secondary": {
+        "hex": "#5C6068",
+        "rgba": "rgba(92, 96, 104, 1)",
+        "role": "Secondary labels, toolbar idle icons"
+      },
+      "tertiary": {
+        "hex": "#8B909A",
+        "rgba": "rgba(139, 144, 154, 1)",
+        "role": "Placeholders, disabled text, idle chrome"
+      },
+      "inverse": {
+        "hex": "#F7F8FA",
+        "rgba": "rgba(247, 248, 250, 1)",
+        "role": "Text/icons on dark dock"
+      },
+      "inverseMuted": {
+        "hex": "#C4C7CE",
+        "rgba": "rgba(196, 199, 206, 1)",
+        "role": "Secondary icons on dark dock"
+      }
+    },
+    "borders": {
+      "hairline": {
+        "hex": "#E5E7EB",
+        "rgba": "rgba(229, 231, 235, 1)",
+        "role": "Default 1px card / input border"
+      },
+      "subtle": {
+        "hex": "#EEF0F3",
+        "rgba": "rgba(238, 240, 243, 1)",
+        "role": "Toolbar dividers, soft separators"
+      },
+      "strong": {
+        "hex": "#D1D5DB",
+        "rgba": "rgba(209, 213, 219, 1)",
+        "role": "Focused-adjacent / emphasized borders"
+      },
+      "dockDivider": {
+        "hex": "#FFFFFF",
+        "rgba": "rgba(255, 255, 255, 0.12)",
+        "role": "Vertical dividers inside dark dock"
+      }
+    },
+    "dock": {
+      "base": {
+        "hex": "#2A2D34",
+        "rgba": "rgba(42, 45, 52, 1)",
+        "role": "Floating action dock start / mid tone"
+      },
+      "deep": {
+        "hex": "#1E2025",
+        "rgba": "rgba(30, 32, 37, 1)",
+        "role": "Dock deep end / elevated plus well"
+      },
+      "gradient": {
+        "css": "linear-gradient(180deg, #2A2D34 0%, #1E2025 100%)",
+        "role": "Obsidian dock fill"
+      },
+      "buttonWell": {
+        "hex": "#25282F",
+        "rgba": "rgba(37, 40, 47, 1)",
+        "role": "Circular plus button inset well"
+      },
+      "buttonGlow": {
+        "hex": "#3A3E48",
+        "rgba": "rgba(58, 62, 72, 0.65)",
+        "role": "Soft tinted glow around elevated dock primary"
+      }
+    },
+    "accents": {
+      "neutralChip": {
+        "hex": "#ECEEF1",
+        "rgba": "rgba(236, 238, 241, 1)",
+        "role": "Mention pill / entity chip background"
+      },
+      "neutralChipText": {
+        "hex": "#2C2F36",
+        "rgba": "rgba(44, 47, 54, 1)",
+        "role": "Mention chip text"
+      },
+      "focusRing": {
+        "hex": "#3B82F6",
+        "rgba": "rgba(59, 130, 246, 0.35)",
+        "role": "Soft focus ring (restrained blue, not purple)"
+      },
+      "link": {
+        "hex": "#2563EB",
+        "rgba": "rgba(37, 99, 235, 1)",
+        "role": "Inline links in editor"
+      },
+      "selection": {
+        "hex": "#DBEAFE",
+        "rgba": "rgba(219, 234, 254, 1)",
+        "role": "Text selection highlight"
+      }
+    },
+    "status": {
+      "success": {
+        "hex": "#22C55E",
+        "rgba": "rgba(34, 197, 94, 1)",
+        "role": "Success checkmark badge fill"
+      },
+      "successForeground": {
+        "hex": "#FFFFFF",
+        "rgba": "rgba(255, 255, 255, 1)",
+        "role": "Icon on success badge"
+      },
+      "warning": {
+        "hex": "#F59E0B",
+        "rgba": "rgba(245, 158, 11, 1)",
+        "role": "Warning toast / tag"
+      },
+      "error": {
+        "hex": "#EF4444",
+        "rgba": "rgba(239, 68, 68, 1)",
+        "role": "Error toast / destructive"
+      },
+      "info": {
+        "hex": "#3B82F6",
+        "rgba": "rgba(59, 130, 246, 1)",
+        "role": "Info toast / notification"
+      },
+      "loading": {
+        "hex": "#D1D5DB",
+        "rgba": "rgba(209, 213, 219, 1)",
+        "role": "Spinner track / loading badge chrome"
+      },
+      "loadingAccent": {
+        "hex": "#6B7280",
+        "rgba": "rgba(107, 114, 128, 1)",
+        "role": "Spinner arc"
+      }
+    }
+  },
+  "spacing": {
+    "scale": {
+      "0": "0px",
+      "0.5": "2px",
+      "1": "4px",
+      "1.5": "6px",
+      "2": "8px",
+      "2.5": "10px",
+      "3": "12px",
+      "4": "16px",
+      "5": "20px",
+      "6": "24px",
+      "7": "28px",
+      "8": "32px",
+      "10": "40px",
+      "12": "48px",
+      "16": "64px",
+      "20": "80px",
+      "24": "96px"
+    },
+    "semantic": {
+      "toolbarGap": "8px",
+      "toolbarPaddingX": "12px",
+      "toolbarPaddingY": "8px",
+      "editorPaddingX": "28px",
+      "editorPaddingY": "24px",
+      "attachmentGap": "12px",
+      "dockPaddingX": "14px",
+      "dockPaddingY": "10px",
+      "dockIconGap": "16px",
+      "cardPadding": "24px",
+      "sectionGap": "32px",
+      "chipPaddingX": "8px",
+      "chipPaddingY": "2px",
+      "chipInlineGap": "6px"
+    }
+  },
+  "borderRadius": {
+    "sm": {
+      "value": "6px",
+      "usage": "Small badges, micro controls"
+    },
+    "md": {
+      "value": "10px",
+      "usage": "Icon buttons, toolbar tactile toggles"
+    },
+    "lg": {
+      "value": "14px",
+      "usage": "Inputs, dropdown triggers, media cards"
+    },
+    "xl": {
+      "value": "18px",
+      "usage": "Popover menus, toast cards"
+    },
+    "2xl": {
+      "value": "24px",
+      "usage": "Primary editor sheet / dialog container"
+    },
+    "full": {
+      "value": "9999px",
+      "usage": "Pills, circular dock buttons, mention chips (near-pill), dock container"
+    }
+  },
+  "elevation": {
+    "none": {
+      "boxShadow": "none",
+      "usage": "Flush chrome"
+    },
+    "card": {
+      "boxShadow": "0 4px 24px rgba(15, 17, 21, 0.06), 0 1px 2px rgba(15, 17, 21, 0.04)",
+      "usage": "Floating white editor sheet / elevated surfaces"
+    },
+    "cardHover": {
+      "boxShadow": "0 8px 28px rgba(15, 17, 21, 0.08), 0 2px 4px rgba(15, 17, 21, 0.04)",
+      "usage": "List rows / media cards on hover"
+    },
+    "popover": {
+      "boxShadow": "0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06)",
+      "usage": "Dropdown menus, popovers, dialogs"
+    },
+    "tactileRaised": {
+      "boxShadow": "0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+      "usage": "Active embossed format toggle (Bold B)"
+    },
+    "tactilePressed": {
+      "boxShadow": "inset 0 1px 3px rgba(15, 17, 21, 0.12), inset 0 0 0 1px rgba(15, 17, 21, 0.04)",
+      "usage": "Pressed state for tactile controls"
+    },
+    "dock": {
+      "boxShadow": "0 10px 32px rgba(15, 17, 21, 0.28), 0 2px 8px rgba(15, 17, 21, 0.18)",
+      "usage": "Floating obsidian action dock"
+    },
+    "dockPrimary": {
+      "boxShadow": "0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+      "usage": "Elevated circular + button in dock"
+    },
+    "tooltip": {
+      "boxShadow": "0 4px 12px rgba(15, 17, 21, 0.22)",
+      "usage": "Dark compact tooltips"
+    }
+  },
+  "components": {
+    "button": {
+      "description": "Tactile, rounded buttons. Primary actions favor dark fills or dock-elevated circles; secondary stays light with hairline border; ghost is text-only; icon buttons are square-rounded; tactile toggles emboss when active.",
+      "variants": {
+        "primary": {
+          "background": "#1E2025",
+          "color": "#F7F8FA",
+          "border": "1px solid transparent",
+          "borderRadius": "9999px",
+          "padding": "10px 18px",
+          "fontWeight": 600,
+          "fontSize": "0.9375rem",
+          "shadow": "0 2px 8px rgba(15, 17, 21, 0.18)",
+          "hover": {
+            "background": "#2A2D34"
+          },
+          "active": {
+            "background": "#181A1E",
+            "shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.35)"
+          },
+          "disabled": {
+            "opacity": 0.45,
+            "cursor": "not-allowed"
+          }
+        },
+        "secondary": {
+          "background": "#FFFFFF",
+          "color": "#1A1C1F",
+          "border": "1px solid #E5E7EB",
+          "borderRadius": "9999px",
+          "padding": "10px 18px",
+          "fontWeight": 550,
+          "hover": {
+            "background": "#F8F9FA",
+            "borderColor": "#D1D5DB"
+          },
+          "active": {
+            "background": "#F1F2F4",
+            "shadow": "inset 0 1px 2px rgba(15, 17, 21, 0.08)"
+          }
+        },
+        "ghost": {
+          "background": "transparent",
+          "color": "#5C6068",
+          "border": "1px solid transparent",
+          "borderRadius": "10px",
+          "padding": "8px 12px",
+          "hover": {
+            "background": "#F1F2F4",
+            "color": "#1A1C1F"
+          }
+        },
+        "iconButton": {
+          "size": "36px",
+          "borderRadius": "10px",
+          "background": "transparent",
+          "color": "#5C6068",
+          "iconSize": "18px",
+          "hover": {
+            "background": "#F1F2F4",
+            "color": "#1A1C1F"
+          },
+          "focusVisible": {
+            "outline": "2px solid rgba(59, 130, 246, 0.35)",
+            "outlineOffset": "2px"
+          }
+        },
+        "tactileToggle": {
+          "description": "Formatting toolbar toggle (e.g. Bold B). Idle is flat icon; active is embossed white square with soft raised shadow.",
+          "size": "32px",
+          "borderRadius": "10px",
+          "idle": {
+            "background": "transparent",
+            "color": "#5C6068",
+            "shadow": "none",
+            "fontWeight": 600
+          },
+          "active": {
+            "background": "#FFFFFF",
+            "color": "#1A1C1F",
+            "border": "1px solid #E5E7EB",
+            "shadow": "0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+            "fontWeight": 700
+          },
+          "pressed": {
+            "shadow": "inset 0 1px 3px rgba(15, 17, 21, 0.12)"
+          }
+        }
+      }
+    },
+    "input": {
+      "description": "Pill and standard form inputs with soft hairline borders, muted placeholders, and restrained blue focus rings.",
+      "variants": {
+        "standard": {
+          "background": "#FFFFFF",
+          "border": "1px solid #E5E7EB",
+          "borderRadius": "14px",
+          "padding": "10px 14px",
+          "fontSize": "0.9375rem",
+          "color": "#1A1C1F",
+          "placeholderColor": "#8B909A",
+          "minHeight": "44px"
+        },
+        "pill": {
+          "background": "#FFFFFF",
+          "border": "1px solid #E5E7EB",
+          "borderRadius": "9999px",
+          "padding": "10px 16px",
+          "fontSize": "0.9375rem",
+          "color": "#1A1C1F",
+          "placeholderColor": "#8B909A"
+        },
+        "textarea": {
+          "background": "transparent",
+          "border": "none",
+          "borderRadius": "0",
+          "padding": "0",
+          "fontSize": "1.125rem",
+          "lineHeight": 1.65,
+          "color": "#1A1C1F",
+          "placeholderColor": "#8B909A",
+          "resize": "none",
+          "usage": "Composer body — borderless within elevated sheet"
+        }
+      },
+      "states": {
+        "hover": {
+          "borderColor": "#D1D5DB"
+        },
+        "focus": {
+          "borderColor": "#93C5FD",
+          "boxShadow": "0 0 0 3px rgba(59, 130, 246, 0.35)",
+          "outline": "none"
+        },
+        "error": {
+          "borderColor": "#EF4444",
+          "boxShadow": "0 0 0 3px rgba(239, 68, 68, 0.2)"
+        },
+        "disabled": {
+          "background": "#F8F9FA",
+          "color": "#8B909A",
+          "cursor": "not-allowed"
+        }
+      }
+    },
+    "dropdownSelect": {
+      "description": "Toolbar font selector style — pill trigger with label + chevron, floating popover menu with hover/focus item states.",
+      "trigger": {
+        "background": "#FFFFFF",
+        "border": "1px solid #E5E7EB",
+        "borderRadius": "9999px",
+        "padding": "6px 12px",
+        "gap": "6px",
+        "fontSize": "0.8125rem",
+        "fontWeight": 500,
+        "color": "#1A1C1F",
+        "chevron": {
+          "size": "14px",
+          "color": "#8B909A"
+        },
+        "hover": {
+          "background": "#F8F9FA",
+          "borderColor": "#D1D5DB"
+        },
+        "open": {
+          "borderColor": "#D1D5DB",
+          "shadow": "0 1px 2px rgba(15, 17, 21, 0.06)"
+        },
+        "exampleLabel": "Regular Font"
+      },
+      "popover": {
+        "background": "#FFFFFF",
+        "border": "1px solid #E5E7EB",
+        "borderRadius": "18px",
+        "padding": "6px",
+        "minWidth": "180px",
+        "shadow": "0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06)",
+        "offsetY": "8px"
+      },
+      "item": {
+        "padding": "8px 12px",
+        "borderRadius": "10px",
+        "fontSize": "0.875rem",
+        "color": "#1A1C1F",
+        "hover": {
+          "background": "#F1F2F4"
+        },
+        "selected": {
+          "background": "#EBECEF",
+          "fontWeight": 600
+        },
+        "keyboardFocus": {
+          "background": "#F1F2F4",
+          "outline": "2px solid rgba(59, 130, 246, 0.35)",
+          "outlineOffset": "-2px"
+        },
+        "disabled": {
+          "color": "#8B909A",
+          "opacity": 0.6
+        }
+      }
+    },
+    "formattingToolbar": {
+      "description": "Horizontal segmented formatting strip at top of editor sheet. Font dropdown left; format icons right; hairline vertical dividers; active format uses tactile embossed toggle.",
+      "container": {
+        "background": "#FFFFFF",
+        "borderBottom": "1px solid #EEF0F3",
+        "padding": "8px 12px",
+        "gap": "4px",
+        "alignItems": "center",
+        "borderRadius": "24px 24px 0 0"
+      },
+      "groups": [
+        {
+          "id": "typography",
+          "controls": ["fontSelect"]
+        },
+        {
+          "id": "inlineFormat",
+          "controls": ["bold", "italic", "strikethrough", "underline", "link"]
+        },
+        {
+          "id": "lists",
+          "controls": ["bulletedList", "numberedList"]
+        }
+      ],
+      "divider": {
+        "width": "1px",
+        "height": "20px",
+        "background": "#EEF0F3",
+        "marginX": "8px"
+      },
+      "iconLayout": {
+        "iconSize": "18px",
+        "buttonSize": "32px",
+        "gap": "2px",
+        "stroke": "1.5px",
+        "idleColor": "#5C6068",
+        "activeTreatment": "tactileToggle.active"
+      }
+    },
+    "floatingActionDock": {
+      "description": "Floating obsidian bottom action dock — dual-tone architecture anchor. Circular elevated + primary; action icons for mention, emoji, media, mic, overflow; group dividers.",
+      "container": {
+        "background": "linear-gradient(180deg, #2A2D34 0%, #1E2025 100%)",
+        "borderRadius": "9999px",
+        "padding": "10px 14px",
+        "gap": "4px",
+        "alignItems": "center",
+        "shadow": "0 10px 32px rgba(15, 17, 21, 0.28), 0 2px 8px rgba(15, 17, 21, 0.18)",
+        "border": "1px solid rgba(255, 255, 255, 0.06)",
+        "minHeight": "56px",
+        "margin": "12px 16px 16px"
+      },
+      "primaryAddButton": {
+        "size": "40px",
+        "borderRadius": "9999px",
+        "background": "radial-gradient(circle at 30% 25%, #3A3E48 0%, #25282F 55%, #1E2025 100%)",
+        "color": "#F7F8FA",
+        "iconSize": "20px",
+        "shadow": "0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+        "hover": {
+          "filter": "brightness(1.08)"
+        },
+        "active": {
+          "shadow": "inset 0 2px 6px rgba(0, 0, 0, 0.45)"
+        }
+      },
+      "actionIcons": [
+        {
+          "id": "mention",
+          "glyph": "@",
+          "label": "Mention",
+          "tooltip": "Mention someone"
+        },
+        {
+          "id": "emoji",
+          "glyph": "smiley",
+          "label": "Emoji",
+          "tooltip": "Add emoji"
+        },
+        {
+          "id": "media",
+          "glyph": "image-sparkle",
+          "label": "Media",
+          "tooltip": "Attach media"
+        },
+        {
+          "id": "mic",
+          "glyph": "waveform",
+          "label": "Audio",
+          "tooltip": "Record audio"
+        },
+        {
+          "id": "overflow",
+          "glyph": "ellipsis",
+          "label": "More",
+          "tooltip": "More actions"
+        }
+      ],
+      "iconButton": {
+        "size": "36px",
+        "borderRadius": "9999px",
+        "color": "#C4C7CE",
+        "iconSize": "18px",
+        "hover": {
+          "background": "rgba(255, 255, 255, 0.08)",
+          "color": "#F7F8FA"
+        },
+        "active": {
+          "background": "rgba(255, 255, 255, 0.12)",
+          "color": "#FFFFFF"
+        }
+      },
+      "divider": {
+        "width": "1px",
+        "height": "22px",
+        "background": "rgba(255, 255, 255, 0.12)",
+        "marginX": "8px"
+      }
+    },
+    "mentionsChipsBadges": {
+      "description": "Inline entity chips for @mentions, status tags, and notification dots.",
+      "mentionPill": {
+        "display": "inline-flex",
+        "alignItems": "center",
+        "background": "#ECEEF1",
+        "color": "#2C2F36",
+        "borderRadius": "9999px",
+        "padding": "2px 8px",
+        "fontSize": "0.9375rem",
+        "fontWeight": 600,
+        "lineHeight": 1.4,
+        "marginInline": "2px",
+        "gap": "0",
+        "example": "@masum",
+        "hover": {
+          "background": "#E2E5EA"
+        },
+        "selected": {
+          "background": "#DBEAFE",
+          "color": "#1E3A8A"
+        }
+      },
+      "statusTag": {
+        "borderRadius": "9999px",
+        "padding": "2px 8px",
+        "fontSize": "0.6875rem",
+        "fontWeight": 600,
+        "letterSpacing": "0.02em",
+        "variants": {
+          "neutral": {
+            "background": "#ECEEF1",
+            "color": "#5C6068"
+          },
+          "success": {
+            "background": "rgba(34, 197, 94, 0.12)",
+            "color": "#15803D"
+          },
+          "warning": {
+            "background": "rgba(245, 158, 11, 0.14)",
+            "color": "#B45309"
+          },
+          "error": {
+            "background": "rgba(239, 68, 68, 0.12)",
+            "color": "#B91C1C"
+          },
+          "info": {
+            "background": "rgba(59, 130, 246, 0.12)",
+            "color": "#1D4ED8"
+          }
+        }
+      },
+      "notificationDot": {
+        "size": "8px",
+        "borderRadius": "9999px",
+        "background": "#EF4444",
+        "border": "2px solid #FFFFFF",
+        "position": "absolute top-right offset -2px",
+        "usage": "Unread indicator on avatars / dock icons"
+      }
+    },
+    "mediaAttachmentCards": {
+      "description": "Compact thumbnail preview cards with 1px border, soft radius, and corner status badges (success checkmark or loading spinner).",
+      "card": {
+        "width": "72px",
+        "height": "72px",
+        "borderRadius": "14px",
+        "border": "1px solid #E5E7EB",
+        "background": "#FFFFFF",
+        "overflow": "hidden",
+        "shadow": "0 1px 3px rgba(15, 17, 21, 0.06)",
+        "position": "relative",
+        "objectFit": "cover",
+        "hover": {
+          "shadow": "0 8px 28px rgba(15, 17, 21, 0.08), 0 2px 4px rgba(15, 17, 21, 0.04)",
+          "transform": "translateY(-1px)"
+        }
+      },
+      "layout": {
+        "direction": "row",
+        "gap": "12px",
+        "marginTop": "16px"
+      },
+      "statusBadge": {
+        "position": "absolute",
+        "top": "4px",
+        "right": "4px",
+        "size": "18px",
+        "borderRadius": "9999px",
+        "border": "1.5px solid #FFFFFF",
+        "shadow": "0 1px 2px rgba(15, 17, 21, 0.12)",
+        "variants": {
+          "success": {
+            "background": "#22C55E",
+            "icon": "checkmark",
+            "iconColor": "#FFFFFF",
+            "iconSize": "10px"
+          },
+          "loading": {
+            "background": "#FFFFFF",
+            "icon": "spinner",
+            "iconColor": "#6B7280",
+            "iconSize": "10px",
+            "animation": "spin 0.8s linear infinite"
+          },
+          "error": {
+            "background": "#EF4444",
+            "icon": "x",
+            "iconColor": "#FFFFFF",
+            "iconSize": "10px"
+          }
+        }
+      }
+    },
+    "dialogModal": {
+      "description": "Elevated white card over blurred scrim. Soft 24px radius, clear title, footer actions aligned end.",
+      "backdrop": {
+        "background": "rgba(15, 17, 21, 0.28)",
+        "backdropFilter": "blur(8px)",
+        "animation": "fade-in 150ms ease"
+      },
+      "container": {
+        "background": "#FFFFFF",
+        "borderRadius": "24px",
+        "border": "1px solid #E5E7EB",
+        "shadow": "0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06)",
+        "padding": "24px",
+        "maxWidth": "480px",
+        "width": "min(480px, calc(100vw - 32px))"
+      },
+      "title": {
+        "fontFamily": "body",
+        "fontSize": "1.125rem",
+        "fontWeight": 600,
+        "color": "#1A1C1F",
+        "marginBottom": "8px"
+      },
+      "description": {
+        "fontSize": "0.9375rem",
+        "color": "#5C6068",
+        "lineHeight": 1.55,
+        "marginBottom": "24px"
+      },
+      "actions": {
+        "display": "flex",
+        "justifyContent": "flex-end",
+        "gap": "8px",
+        "primaryVariant": "primary",
+        "secondaryVariant": "secondary"
+      }
+    },
+    "dropdownMenusPopovers": {
+      "description": "Floating light cards for contextual menus. Same elevation language as select popover; keyboard-focusable items.",
+      "container": {
+        "background": "#FFFFFF",
+        "border": "1px solid #E5E7EB",
+        "borderRadius": "18px",
+        "padding": "6px",
+        "shadow": "0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06)",
+        "minWidth": "200px",
+        "zIndex": 50
+      },
+      "item": {
+        "padding": "8px 12px",
+        "borderRadius": "10px",
+        "fontSize": "0.875rem",
+        "color": "#1A1C1F",
+        "gap": "10px",
+        "iconSize": "16px",
+        "iconColor": "#5C6068",
+        "hover": {
+          "background": "#F1F2F4"
+        },
+        "keyboardFocus": {
+          "background": "#F1F2F4",
+          "outline": "2px solid rgba(59, 130, 246, 0.35)",
+          "outlineOffset": "-2px"
+        },
+        "destructive": {
+          "color": "#EF4444",
+          "iconColor": "#EF4444",
+          "hover": {
+            "background": "rgba(239, 68, 68, 0.08)"
+          }
+        }
+      },
+      "separator": {
+        "height": "1px",
+        "background": "#EEF0F3",
+        "marginY": "4px"
+      }
+    },
+    "tooltip": {
+      "description": "Dark high-contrast compact tooltip for dock icons and toolbar controls.",
+      "container": {
+        "background": "#1E2025",
+        "color": "#F7F8FA",
+        "borderRadius": "8px",
+        "padding": "6px 10px",
+        "fontSize": "0.75rem",
+        "fontWeight": 500,
+        "lineHeight": 1.3,
+        "shadow": "0 4px 12px rgba(15, 17, 21, 0.22)",
+        "maxWidth": "220px",
+        "zIndex": 60
+      },
+      "arrow": {
+        "size": "6px",
+        "color": "#1E2025"
+      },
+      "delayMs": 400,
+      "offset": 8
+    },
+    "tabsSegmentedControls": {
+      "description": "Subtle track with embossed active segment — mirrors tactile toggle language.",
+      "track": {
+        "background": "#F1F2F4",
+        "borderRadius": "9999px",
+        "padding": "3px",
+        "gap": "2px",
+        "border": "1px solid #EEF0F3"
+      },
+      "tab": {
+        "padding": "6px 14px",
+        "borderRadius": "9999px",
+        "fontSize": "0.8125rem",
+        "fontWeight": 500,
+        "color": "#5C6068",
+        "idle": {
+          "background": "transparent"
+        },
+        "active": {
+          "background": "#FFFFFF",
+          "color": "#1A1C1F",
+          "fontWeight": 600,
+          "shadow": "0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+          "border": "1px solid #E5E7EB"
+        },
+        "hover": {
+          "color": "#1A1C1F"
+        }
+      },
+      "underlineTabs": {
+        "note": "Optional alternative for page-level nav",
+        "activeBorder": "2px solid #1A1C1F",
+        "idleColor": "#8B909A",
+        "activeColor": "#1A1C1F"
+      }
+    },
+    "toastNotifications": {
+      "description": "Compact elevated status cards, bottom or top-right. Status accent via left bar or icon — not full colored fills.",
+      "container": {
+        "background": "#FFFFFF",
+        "border": "1px solid #E5E7EB",
+        "borderRadius": "14px",
+        "padding": "12px 14px",
+        "shadow": "0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06)",
+        "minWidth": "280px",
+        "maxWidth": "380px",
+        "gap": "10px",
+        "display": "flex",
+        "alignItems": "flex-start"
+      },
+      "title": {
+        "fontSize": "0.875rem",
+        "fontWeight": 600,
+        "color": "#1A1C1F"
+      },
+      "body": {
+        "fontSize": "0.8125rem",
+        "color": "#5C6068"
+      },
+      "statusStyles": {
+        "success": {
+          "iconColor": "#22C55E",
+          "accentBar": "#22C55E"
+        },
+        "warning": {
+          "iconColor": "#F59E0B",
+          "accentBar": "#F59E0B"
+        },
+        "error": {
+          "iconColor": "#EF4444",
+          "accentBar": "#EF4444"
+        },
+        "info": {
+          "iconColor": "#3B82F6",
+          "accentBar": "#3B82F6"
+        }
+      },
+      "durationMs": 4000
+    },
+    "tablesListViews": {
+      "description": "Hairline row separators, soft hover elevation wash — no heavy zebra striping.",
+      "table": {
+        "background": "#FFFFFF",
+        "border": "1px solid #E5E7EB",
+        "borderRadius": "18px",
+        "overflow": "hidden"
+      },
+      "header": {
+        "background": "#F8F9FA",
+        "fontSize": "0.75rem",
+        "fontWeight": 600,
+        "letterSpacing": "0.02em",
+        "color": "#5C6068",
+        "padding": "10px 16px",
+        "borderBottom": "1px solid #EEF0F3",
+        "textTransform": "none"
+      },
+      "row": {
+        "padding": "12px 16px",
+        "borderBottom": "1px solid #EEF0F3",
+        "fontSize": "0.875rem",
+        "color": "#1A1C1F",
+        "hover": {
+          "background": "#F8F9FA",
+          "shadow": "inset 0 0 0 1px rgba(15, 17, 21, 0.02)"
+        },
+        "selected": {
+          "background": "#F1F2F4"
+        },
+        "lastChild": {
+          "borderBottom": "none"
+        }
+      },
+      "listView": {
+        "gap": "0",
+        "itemPadding": "12px 16px",
+        "itemBorderRadius": "12px",
+        "hoverBackground": "#F1F2F4",
+        "divider": "1px solid #EEF0F3"
+      }
+    },
+    "togglesCheckboxes": {
+      "description": "Tactile switch with embossed thumb; rounded checkbox with soft check mark.",
+      "switch": {
+        "trackWidth": "44px",
+        "trackHeight": "26px",
+        "trackRadius": "9999px",
+        "trackOff": "#E5E7EB",
+        "trackOn": "#2A2D34",
+        "thumbSize": "22px",
+        "thumbColor": "#FFFFFF",
+        "thumbShadow": "0 1px 3px rgba(15, 17, 21, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+        "thumbOffset": "2px",
+        "transition": "150ms ease",
+        "focusRing": "0 0 0 3px rgba(59, 130, 246, 0.35)"
+      },
+      "checkbox": {
+        "size": "18px",
+        "borderRadius": "6px",
+        "border": "1.5px solid #D1D5DB",
+        "background": "#FFFFFF",
+        "checked": {
+          "background": "#1E2025",
+          "borderColor": "#1E2025",
+          "checkmarkColor": "#FFFFFF",
+          "checkmarkStroke": "2px"
+        },
+        "indeterminate": {
+          "background": "#2A2D34",
+          "dashColor": "#FFFFFF"
+        },
+        "hover": {
+          "borderColor": "#8B909A"
+        },
+        "focusVisible": {
+          "boxShadow": "0 0 0 3px rgba(59, 130, 246, 0.35)"
+        }
+      }
+    }
+  },
+  "motion": {
+    "duration": {
+      "instant": "80ms",
+      "fast": "150ms",
+      "normal": "220ms",
+      "slow": "320ms"
+    },
+    "easing": {
+      "standard": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      "emphasized": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "exit": "cubic-bezier(0.4, 0, 1, 1)"
+    },
+    "patterns": [
+      {
+        "name": "tactilePress",
+        "description": "Brief scale 0.98 + inset shadow on press for dock + and format toggles"
+      },
+      {
+        "name": "dockAppear",
+        "description": "Dock fades/slides up 8px on editor mount"
+      },
+      {
+        "name": "badgePulse",
+        "description": "Loading spinner continuous rotate; success badge soft scale-in"
+      }
+    ]
+  },
+  "tailwindIntegration": {
+    "description": "Map design tokens to CSS custom properties on :root, then extend Tailwind theme to reference those variables.",
+    "cssCustomProperties": {
+      ":root": {
+        "--font-heading": "'Instrument Serif', Georgia, 'Times New Roman', serif",
+        "--font-body": "'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif",
+        "--color-canvas": "#F3F4F6",
+        "--color-surface": "#FFFFFF",
+        "--color-surface-muted": "#F8F9FA",
+        "--color-surface-hover": "#F1F2F4",
+        "--color-surface-active": "#EBECEF",
+        "--color-ink": "#1A1C1F",
+        "--color-ink-secondary": "#5C6068",
+        "--color-ink-tertiary": "#8B909A",
+        "--color-ink-inverse": "#F7F8FA",
+        "--color-border": "#E5E7EB",
+        "--color-border-subtle": "#EEF0F3",
+        "--color-dock": "#2A2D34",
+        "--color-dock-deep": "#1E2025",
+        "--color-chip": "#ECEEF1",
+        "--color-chip-text": "#2C2F36",
+        "--color-focus-ring": "rgba(59, 130, 246, 0.35)",
+        "--color-success": "#22C55E",
+        "--color-warning": "#F59E0B",
+        "--color-error": "#EF4444",
+        "--color-info": "#3B82F6",
+        "--radius-sm": "6px",
+        "--radius-md": "10px",
+        "--radius-lg": "14px",
+        "--radius-xl": "18px",
+        "--radius-2xl": "24px",
+        "--radius-full": "9999px",
+        "--shadow-card": "0 4px 24px rgba(15, 17, 21, 0.06), 0 1px 2px rgba(15, 17, 21, 0.04)",
+        "--shadow-popover": "0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06)",
+        "--shadow-tactile": "0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+        "--shadow-dock": "0 10px 32px rgba(15, 17, 21, 0.28), 0 2px 8px rgba(15, 17, 21, 0.18)",
+        "--shadow-dock-primary": "0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
+      }
+    },
+    "tailwindThemeExtend": {
+      "fontFamily": {
+        "heading": ["var(--font-heading)"],
+        "sans": ["var(--font-body)"]
+      },
+      "colors": {
+        "canvas": "var(--color-canvas)",
+        "surface": {
+          "DEFAULT": "var(--color-surface)",
+          "muted": "var(--color-surface-muted)",
+          "hover": "var(--color-surface-hover)",
+          "active": "var(--color-surface-active)"
+        },
+        "ink": {
+          "DEFAULT": "var(--color-ink)",
+          "secondary": "var(--color-ink-secondary)",
+          "tertiary": "var(--color-ink-tertiary)",
+          "inverse": "var(--color-ink-inverse)"
+        },
+        "border": {
+          "DEFAULT": "var(--color-border)",
+          "subtle": "var(--color-border-subtle)"
+        },
+        "dock": {
+          "DEFAULT": "var(--color-dock)",
+          "deep": "var(--color-dock-deep)"
+        },
+        "chip": {
+          "DEFAULT": "var(--color-chip)",
+          "foreground": "var(--color-chip-text)"
+        },
+        "status": {
+          "success": "var(--color-success)",
+          "warning": "var(--color-warning)",
+          "error": "var(--color-error)",
+          "info": "var(--color-info)"
+        }
+      },
+      "borderRadius": {
+        "sm": "var(--radius-sm)",
+        "md": "var(--radius-md)",
+        "lg": "var(--radius-lg)",
+        "xl": "var(--radius-xl)",
+        "2xl": "var(--radius-2xl)",
+        "full": "var(--radius-full)"
+      },
+      "boxShadow": {
+        "card": "var(--shadow-card)",
+        "popover": "var(--shadow-popover)",
+        "tactile": "var(--shadow-tactile)",
+        "dock": "var(--shadow-dock)",
+        "dock-primary": "var(--shadow-dock-primary)"
+      },
+      "ringColor": {
+        "focus": "var(--color-focus-ring)"
+      }
+    },
+    "utilityExamples": [
+      "bg-canvas text-ink font-sans",
+      "bg-surface shadow-card rounded-2xl border border-border",
+      "bg-dock shadow-dock rounded-full text-ink-inverse",
+      "shadow-tactile bg-surface rounded-md (active Bold toggle)",
+      "bg-chip text-chip-foreground rounded-full px-2 py-0.5 font-semibold (mention)",
+      "ring-4 ring-focus (focused input)"
+    ],
+    "googleFontsLinkTag": "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />\n<link href=\"https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap\" rel=\"stylesheet\" />"
+  },
+  "accessibility": {
+    "contrast": "Body ink (#1A1C1F) on white and dock icons (#C4C7CE/#F7F8FA) on #1E2025 must meet WCAG AA for UI text.",
+    "focusVisible": "Always show focus rings (soft blue) on keyboard navigation; never rely on hover-only affordances.",
+    "touchTargets": "Minimum 36px for toolbar icons; 40px for dock primary +; 44px preferred for form controls.",
+    "motion": "Respect prefers-reduced-motion: disable dock slide and badge pulse animations."
+  }
+}

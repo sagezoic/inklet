@@ -1,7 +1,9 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { PolarEmbedCheckout } from "@polar-sh/checkout/embed";
+import { Check } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import type { Id } from "../../convex/_generated/dataModel";
+import { Logo } from "./Logo";
 import { Button } from "./ui/Button";
 
 const CHECKOUT_LINK =
@@ -122,7 +124,7 @@ export function TrialOfferDialog({ email, userId }: TrialOfferDialogProps) {
       ref={dialogRef}
       aria-labelledby={titleId}
       aria-modal="true"
-      className="m-auto w-full max-w-md rounded-2xl border border-hairline bg-surface p-0 shadow-soft backdrop:bg-ink/30"
+      className="m-auto w-full max-w-md rounded-[24px] border border-[#E5E7EB] bg-white p-6 shadow-[0_12px_40px_rgba(15,17,21,0.12),0_2px_8px_rgba(15,17,21,0.06)] backdrop:bg-[#0F1115]/30 backdrop:backdrop-blur-sm focus:outline-none"
       onCancel={(event) => {
         event.preventDefault();
       }}
@@ -132,41 +134,56 @@ export function TrialOfferDialog({ email, userId }: TrialOfferDialogProps) {
         }
       }}
     >
-      <div className="flex flex-col gap-5 p-6">
+      <div className="flex flex-col gap-6">
         <div>
-          <h2 id={titleId} className="font-display text-2xl text-ink">
+          <Logo size="sm" className="mb-4" />
+          <span className="flex w-fit items-center rounded-full bg-[#DCFCE7] px-2.5 py-0.5 font-sans text-[11px] font-semibold text-[#15803D]">
+            Free Trial Available
+          </span>
+          <h2 id={titleId} className="mt-2 font-display text-3xl text-[#1A1C1F]">
             Start your free trial of Inklet
           </h2>
-          <p className="mt-2 font-serif text-base leading-relaxed text-muted">
+          <p className="mt-1 font-serif text-sm leading-relaxed text-[#5C6068]">
             A quiet place to draft with your sources beside you.
           </p>
         </div>
 
-        <ul className="flex flex-col gap-3">
+        <ul className="flex flex-col gap-2.5">
           {benefits.map((benefit) => (
-            <li key={benefit.title}>
-              <p className="font-display text-lg text-ink">{benefit.title}</p>
-              <p className="mt-1 font-serif text-base leading-relaxed text-muted">
-                {benefit.description}
-              </p>
+            <li
+              key={benefit.title}
+              className="flex items-start gap-3 rounded-[14px] border border-[#EEF0F3] bg-[#F8F9FA] p-3"
+            >
+              <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#22C55E] text-white shadow-sm">
+                <Check className="size-2.5 stroke-[3]" />
+              </span>
+              <div>
+                <p className="font-display text-sm font-semibold text-[#1A1C1F]">
+                  {benefit.title}
+                </p>
+                <p className="mt-0.5 font-serif text-xs leading-relaxed text-[#5C6068]">
+                  {benefit.description}
+                </p>
+              </div>
             </li>
           ))}
         </ul>
 
-        <p className="font-serif text-base text-ink">
-          Then <span className="font-semibold">$1/month</span> after the free
-          trial.
-        </p>
+        <div className="rounded-[14px] border border-[#E5E7EB] bg-white p-3 text-center">
+          <p className="font-serif text-sm text-[#5C6068]">
+            Then <span className="font-semibold text-[#1A1C1F]">$1/month</span> after the free trial. Cancel anytime.
+          </p>
+        </div>
 
         {error ? (
-          <p className="font-sans text-sm text-red-800" role="alert">
+          <p className="font-sans text-xs font-medium text-[#B91C1C]" role="alert">
             {error}
           </p>
         ) : null}
 
         {confirming ? (
           <p
-            className="font-serif text-base text-muted"
+            className="text-center font-serif text-sm text-[#5C6068]"
             role="status"
             aria-live="polite"
           >
@@ -184,15 +201,17 @@ export function TrialOfferDialog({ email, userId }: TrialOfferDialogProps) {
           </Button>
         )}
 
-        <button
-          type="button"
-          className="font-sans text-sm text-muted underline-offset-4 hover:text-ink hover:underline"
-          onClick={() => {
-            void signOut();
-          }}
-        >
-          Sign out
-        </button>
+        <div className="text-center">
+          <button
+            type="button"
+            className="font-sans text-xs text-[#8B909A] transition hover:text-[#1A1C1F] hover:underline"
+            onClick={() => {
+              void signOut();
+            }}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </dialog>
   );

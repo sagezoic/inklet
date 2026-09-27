@@ -2,6 +2,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useConvexAuth } from "convex/react";
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Logo } from "../components/Logo";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
@@ -101,7 +102,7 @@ export function AuthPage() {
     <div className="flex min-h-svh items-center justify-center bg-paper px-4 py-10">
       <Card className="w-full max-w-md p-8">
         <div className="mb-8 text-center">
-          <p className="font-display text-3xl text-ink">Inklet</p>
+          <Logo size="lg" />
           <p className="mt-2 font-serif text-muted">
             {flow === "signIn"
               ? "Welcome back. Sign in to continue writing."

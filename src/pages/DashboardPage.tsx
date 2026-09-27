@@ -1,11 +1,20 @@
 import { useMutation, usePaginatedQuery } from "convex/react";
-import { Trash2 } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Cloud,
+  FileText,
+  Search,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { AccountMenu } from "../components/AccountMenu";
+import { Logo } from "../components/Logo";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Dialog } from "../components/ui/Dialog";
@@ -26,6 +35,43 @@ function excerptFromContent(content: string): string {
     return plain;
   }
   return `${plain.slice(0, EXCERPT_MAX).trimEnd()}…`;
+}
+
+const features = [
+  {
+    icon: BookOpen,
+    title: "Knowledge at hand",
+    description:
+      "Pin source notes beside your draft so research never lives in another tab.",
+  },
+  {
+    icon: Sparkles,
+    title: "An AI co-writer",
+    description:
+      "Ask for outlines, rewrites, or a second opinion grounded in what you've gathered.",
+  },
+  {
+    icon: Cloud,
+    title: "Quiet autosave",
+    description:
+      "Every keystroke settles in the background. Close the tab — your words stay.",
+  },
+] as const;
+
+function greetingFor(timestamp: number): string {
+  const hour = new Date(timestamp).getHours();
+  if (hour < 12) {
+    return "Good morning";
+  }
+  if (hour < 18) {
+    return "Good afternoon";
+  }
+  return "Good evening";
+}
+
+function countWords(content: string): number {
+  const plain = content.replace(/<[^>]*>/g, " ").trim();
+  return plain.length === 0 ? 0 : plain.split(/\s+/).length;
 }
 
 type PendingDelete = {
@@ -49,6 +95,7 @@ export function DashboardPage() {
     null,
   );
   const [deleting, setDeleting] = useState(false);
+  const [search, setSearch] = useState("");
 
   async function handleCreate() {
     setCreating(true);
@@ -82,11 +129,49 @@ export function DashboardPage() {
   }
 
   const isEmpty = status !== "LoadingFirstPage" && results.length === 0;
+  const normalizedSearch = search.trim().toLowerCase();
+  const visibleDocuments =
+    normalizedSearch.length === 0
+      ? results
+      : results.filter(
+          (doc) =>
+            doc.title.toLowerCase().includes(normalizedSearch) ||
+            excerptFromContent(doc.content)
+              .toLowerCase()
+              .includes(normalizedSearch),
+        );
+  const countLabel =
+    status === "CanLoadMore" || status === "LoadingMore"
+      ? `${results.length}+ documents`
+      : `${results.length} ${results.length === 1 ? "document" : "documents"}`;
+  const totalWords = results.reduce(
+    (sum, doc) => sum + countWords(doc.content),
+    0,
+  );
+  const lastEdited = results.reduce<number | null>(
+    (latest, doc) =>
+      latest === null || doc.updatedAt > latest ? doc.updatedAt : latest,
+    null,
+  );
+  const stats = [
+    {
+      label: "Documents",
+      value:
+        status === "CanLoadMore" || status === "LoadingMore"
+          ? `${results.length}+`
+          : String(results.length),
+    },
+    { label: "Words written", value: totalWords.toLocaleString() },
+    {
+      label: "Last edited",
+      value: lastEdited === null ? "—" : formatRelativeTime(lastEdited, now),
+    },
+  ];
 
   return (
     <div className="flex min-h-svh flex-col bg-paper">
       <header className="flex items-center justify-between border-b border-hairline px-6 py-5">
-        <p className="font-display text-2xl tracking-tight text-ink">Inklet</p>
+        <Logo />
         <div className="flex items-center gap-3">
           <Button pending={creating} onClick={() => void handleCreate()}>
             New document
@@ -96,29 +181,144 @@ export function DashboardPage() {
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+        <section className="mb-16 grid gap-10 pt-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+          <div>
+            <p className="font-sans text-xs font-medium tracking-[0.2em] text-muted uppercase">
+              {greetingFor(now)}
+            </p>
+            <h1 className="mt-3 font-display text-4xl leading-tight tracking-tight text-ink sm:text-5xl">
+              Every draft begins with a{" "}
+              <em className="font-display italic">single sentence.</em>
+            </h1>
+            <p className="mt-5 max-w-xl font-serif text-lg leading-relaxed text-muted">
+              Pick up where you left off, or open a fresh page. Your sources and
+              your co-writer are waiting beside the margin.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button
+                size="lg"
+                pending={creating}
+                onClick={() => void handleCreate()}
+              >
+                Start a new draft
+              </Button>
+              <a
+                href="#documents"
+                className="inline-flex items-center gap-1.5 font-sans text-sm text-muted underline-offset-4 hover:text-ink hover:underline"
+              >
+                Browse your library
+                <ArrowRight className="size-4" aria-hidden />
+              </a>
+            </div>
+          </div>
+
+          <Card className="grid grid-cols-3 divide-x divide-hairline p-0">
+            {stats.map((stat) => (
+              <div key={stat.label} className="px-4 py-6 text-center">
+                <p className="font-display text-2xl text-ink sm:text-3xl">
+                  {status === "LoadingFirstPage" ? "·" : stat.value}
+                </p>
+                <p className="mt-1 font-sans text-xs text-muted">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </Card>
+        </section>
+
+        <section className="mb-16 grid gap-5 sm:grid-cols-3">
+          {features.map(({ icon: Icon, title, description }) => (
+            <Card key={title} className="p-6">
+              <div className="flex size-10 items-center justify-center rounded-xl border border-hairline bg-paper shadow-sm">
+                <Icon className="size-5 text-ink" aria-hidden />
+              </div>
+              <h3 className="mt-4 font-display text-xl text-ink">{title}</h3>
+              <p className="mt-2 font-serif text-base leading-relaxed text-muted">
+                {description}
+              </p>
+            </Card>
+          ))}
+        </section>
+
+        <div id="documents" className="scroll-mt-8" />
+        {!isEmpty ? (
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="font-display text-3xl tracking-tight text-ink">
+                Your documents
+              </h2>
+              {status !== "LoadingFirstPage" ? (
+                <p className="mt-1 font-sans text-sm text-muted">
+                  {countLabel}
+                </p>
+              ) : null}
+            </div>
+            <label className="relative block w-full sm:w-72">
+              <span className="sr-only">Search documents</span>
+              <Search
+                className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted"
+                aria-hidden
+              />
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                }}
+                placeholder="Search documents"
+                className="w-full rounded-full border border-hairline bg-white py-2 pr-4 pl-9 font-sans text-sm text-ink placeholder:text-muted focus:border-ink/30 focus:outline-none"
+              />
+            </label>
+          </div>
+        ) : null}
 
         {status === "LoadingFirstPage" ? (
-          <div className="min-h-48 bg-paper" aria-busy="true" />
+          <ul
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            aria-busy="true"
+            aria-label="Loading documents"
+          >
+            {Array.from({ length: 6 }, (_, index) => (
+              <li key={index}>
+                <Card className="flex h-44 animate-pulse flex-col gap-3 p-5">
+                  <div className="h-5 w-2/3 rounded bg-hairline" />
+                  <div className="h-3 w-full rounded bg-hairline/70" />
+                  <div className="h-3 w-5/6 rounded bg-hairline/70" />
+                  <div className="mt-auto h-3 w-1/3 rounded bg-hairline/70" />
+                </Card>
+              </li>
+            ))}
+          </ul>
         ) : isEmpty ? (
-          <div className="flex flex-col items-start gap-6 py-16">
-            <p className="font-serif text-lg text-muted">
-              No documents yet. Start writing.
+          <div className="flex flex-col items-center gap-5 py-24 text-center">
+            <div className="flex size-14 items-center justify-center rounded-2xl border border-hairline bg-white shadow-sm">
+              <FileText className="size-6 text-muted" aria-hidden />
+            </div>
+            <h2 className="font-display text-3xl tracking-tight text-ink">
+              A blank page awaits
+            </h2>
+            <p className="max-w-sm font-serif text-lg text-muted">
+              No documents yet. Create your first one and start writing.
             </p>
             <Button pending={creating} onClick={() => void handleCreate()}>
               New document
             </Button>
           </div>
+        ) : visibleDocuments.length === 0 ? (
+          <p className="py-16 text-center font-serif text-lg text-muted">
+            No documents match “{search.trim()}”.
+          </p>
         ) : (
           <>
             <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {results.map((doc) => {
+              {visibleDocuments.map((doc) => {
                 const excerpt = excerptFromContent(doc.content);
                 return (
                   <li key={doc._id}>
                     <Card
                       role="link"
                       tabIndex={0}
-                      className="group relative flex h-full cursor-pointer flex-col gap-3 p-5 transition-colors hover:border-ink/20"
+                      className="group relative flex h-full cursor-pointer flex-col gap-3 p-5 transition-all hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-md focus-visible:border-ink/30 focus-visible:outline-none"
                       onClick={() => {
                         void navigate(`/documents/${doc._id}`);
                       }}
@@ -130,13 +330,13 @@ export function DashboardPage() {
                       }}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <h2 className="font-display text-xl leading-snug text-ink">
+                        <h3 className="font-display text-xl leading-snug text-ink">
                           {doc.title}
-                        </h2>
+                        </h3>
                         <button
                           type="button"
                           aria-label={`Delete ${doc.title}`}
-                          className="shrink-0 rounded-md p-1.5 text-muted transition-colors hover:bg-hairline/60 hover:text-ink"
+                          className="shrink-0 rounded-md p-1.5 text-muted transition-all hover:bg-hairline/60 hover:text-ink sm:opacity-0 sm:group-focus-within:opacity-100 sm:group-hover:opacity-100"
                           onClick={(event) => {
                             event.stopPropagation();
                             setPendingDelete({
@@ -166,10 +366,11 @@ export function DashboardPage() {
               })}
             </ul>
 
-            {status === "CanLoadMore" ? (
+            {status === "CanLoadMore" || status === "LoadingMore" ? (
               <div className="mt-10 flex justify-center">
                 <Button
                   variant="secondary"
+                  pending={status === "LoadingMore"}
                   onClick={() => {
                     loadMore(20);
                   }}
@@ -180,7 +381,52 @@ export function DashboardPage() {
             ) : null}
           </>
         )}
+
+        <section className="mt-20 overflow-hidden rounded-3xl bg-ink px-8 py-12 text-paper shadow-lg sm:px-12">
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-lg">
+              <p className="font-sans text-xs font-medium tracking-[0.2em] text-paper/60 uppercase">
+                Today's prompt
+              </p>
+              <blockquote className="mt-3 font-display text-2xl leading-snug italic sm:text-3xl">
+                “Write the sentence you've been avoiding. The rest will follow.”
+              </blockquote>
+              <p className="mt-4 font-serif text-base text-paper/70">
+                Ten quiet minutes is all it takes to move a draft forward.
+              </p>
+            </div>
+            <button
+              type="button"
+              disabled={creating}
+              onClick={() => void handleCreate()}
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-paper px-6 py-3 font-sans text-sm font-medium text-ink shadow-sm transition-transform hover:-translate-y-0.5 disabled:opacity-60 md:self-auto"
+            >
+              Begin writing
+              <ArrowRight className="size-4" aria-hidden />
+            </button>
+          </div>
+        </section>
       </main>
+
+      <footer className="border-t border-hairline py-10">
+        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="max-w-xs">
+            <Logo size="sm" />
+            <p className="mt-2 font-serif text-sm leading-relaxed text-muted">
+              A quiet place to write with your sources beside you.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 font-sans text-xs text-muted sm:items-end">
+            <Link
+              to="/design-system"
+              className="underline-offset-4 hover:text-ink hover:underline"
+            >
+              Style Guide
+            </Link>
+            <p>© {new Date().getFullYear()} Inklet. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
 
       <Dialog
         open={pendingDelete !== null}

@@ -6,12 +6,14 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { DocumentPage } from "./pages/DocumentPage";
 import { LandingPage } from "./pages/LandingPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { DesignGuidelinesShowcase } from "./pages/DesignGuidelinesShowcase";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/design-system" element={<DesignGuidelinesShowcase />} />
         <Route element={<PublicOnlyRoute />}>
           <Route path="/login" element={<AuthPage />} />
         </Route>
