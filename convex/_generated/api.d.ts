@@ -18,6 +18,7 @@ import type * as knowledge from "../knowledge.js";
 import type * as lib_access from "../lib/access.js";
 import type * as lib_customFunctions from "../lib/customFunctions.js";
 import type * as lib_entitlement from "../lib/entitlement.js";
+import type * as polarPortal from "../polarPortal.js";
 import type * as polarWebhook from "../polarWebhook.js";
 import type * as products from "../products.js";
 import type * as subscriptions from "../subscriptions.js";
@@ -40,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   "lib/access": typeof lib_access;
   "lib/customFunctions": typeof lib_customFunctions;
   "lib/entitlement": typeof lib_entitlement;
+  polarPortal: typeof polarPortal;
   polarWebhook: typeof polarWebhook;
   products: typeof products;
   subscriptions: typeof subscriptions;

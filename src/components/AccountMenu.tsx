@@ -1,8 +1,9 @@
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { User } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 
 function accountLabel(
@@ -23,7 +24,9 @@ function accountLabel(
 export function AccountMenu() {
   const { signOut } = useAuthActions();
   const current = useQuery(api.users.current);
+  const createSession = useAction(api.polarPortal.createSession);
   const [open, setOpen] = useState(false);
+  const [portalPending, setPortalPending] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
   const label = accountLabel(current);
@@ -56,6 +59,41 @@ export function AccountMenu() {
 
   function close() {
     setOpen(false);
+  }
+
+  async function handleManageSubscription() {
+    if (portalPending) {
+      return;
+    }
+
+    close();
+    const tab = window.open("about:blank", "_blank");
+    setPortalPending(true);
+
+    try {
+      const url = await createSession({
+        returnUrl: window.location.origin,
+      });
+
+      if (tab === null) {
+        window.location.assign(url);
+        return;
+      }
+
+      tab.opener = null;
+      tab.location.href = url;
+    } catch (err) {
+      if (tab !== null) {
+        tab.close();
+      }
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : "Could not open the subscription portal.",
+      );
+    } finally {
+      setPortalPending(false);
+    }
   }
 
   return (
@@ -91,6 +129,18 @@ export function AccountMenu() {
           >
             Profile
           </Link>
+          <button
+            type="button"
+            role="menuitem"
+            disabled={portalPending}
+            aria-busy={portalPending || undefined}
+            className="block w-full px-3 py-2 text-left font-sans text-sm text-ink transition-colors hover:bg-hairline/60 disabled:cursor-not-allowed disabled:opacity-70"
+            onClick={() => {
+              void handleManageSubscription();
+            }}
+          >
+            Manage subscription
+          </button>
           <button
             type="button"
             role="menuitem"
