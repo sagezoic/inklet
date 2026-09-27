@@ -10,12 +10,18 @@
 
 import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
+import type * as billing from "../billing.js";
 import type * as chat from "../chat.js";
 import type * as documents from "../documents.js";
 import type * as http from "../http.js";
 import type * as knowledge from "../knowledge.js";
 import type * as lib_access from "../lib/access.js";
 import type * as lib_customFunctions from "../lib/customFunctions.js";
+import type * as lib_entitlement from "../lib/entitlement.js";
+import type * as polarPortal from "../polarPortal.js";
+import type * as polarWebhook from "../polarWebhook.js";
+import type * as products from "../products.js";
+import type * as subscriptions from "../subscriptions.js";
 import type * as users from "../users.js";
 
 import type {
@@ -27,12 +33,18 @@ import type {
 declare const fullApi: ApiFromModules<{
   ai: typeof ai;
   auth: typeof auth;
+  billing: typeof billing;
   chat: typeof chat;
   documents: typeof documents;
   http: typeof http;
   knowledge: typeof knowledge;
   "lib/access": typeof lib_access;
   "lib/customFunctions": typeof lib_customFunctions;
+  "lib/entitlement": typeof lib_entitlement;
+  polarPortal: typeof polarPortal;
+  polarWebhook: typeof polarWebhook;
+  products: typeof products;
+  subscriptions: typeof subscriptions;
   users: typeof users;
 }>;
 

@@ -3,7 +3,11 @@ import {
   customMutation,
   customQuery,
 } from "convex-helpers/server/customFunctions";
+import type { Id } from "../_generated/dataModel";
 import { mutation, query } from "../_generated/server";
+import { assertEntitled } from "./entitlement";
+
+type WithUserId = { userId: Id<"users"> };
 
 export const authedQuery = customQuery(query, {
   args: {},
@@ -24,5 +28,23 @@ export const authedMutation = customMutation(mutation, {
       throw new Error("Not authenticated");
     }
     return { ctx: { ...ctx, userId }, args };
+  },
+});
+
+export const subscribedQuery = customQuery(authedQuery, {
+  args: {},
+  input: async (ctx, args) => {
+    const authedCtx = ctx as typeof ctx & WithUserId;
+    await assertEntitled(authedCtx, authedCtx.userId);
+    return { ctx: authedCtx, args };
+  },
+});
+
+export const subscribedMutation = customMutation(authedMutation, {
+  args: {},
+  input: async (ctx, args) => {
+    const authedCtx = ctx as typeof ctx & WithUserId;
+    await assertEntitled(authedCtx, authedCtx.userId);
+    return { ctx: authedCtx, args };
   },
 });
