@@ -1,0 +1,390 @@
+/* Scope all design guideline tokens and reset strictly to this page root to prevent bleeding into the rest of the app */
+.design-system-showcase-root {
+  --ds-font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --ds-font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --ds-font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --ds-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ds-font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ds-color-canvas: #f3f4f6;
+  --ds-color-surface: #ffffff;
+  --ds-color-surface-subtle: #f8f9fa;
+  --ds-color-surface-hover: #f1f2f4;
+  --ds-color-surface-active: #ebecef;
+
+  --ds-color-ink: #1a1c1f;
+  --ds-color-ink-secondary: #5c6068;
+  --ds-color-ink-tertiary: #8b909a;
+  --ds-color-ink-inverse: #ffffff;
+
+  --ds-border-hairline: #e5e7eb;
+  --ds-border-subtle: #eef0f3;
+  --ds-border-focus: #93c5fd;
+
+  --ds-dock-gradient: linear-gradient(180deg, #252830 0%, #16181d 55%, #0d0e11 100%);
+  --ds-dock-button: radial-gradient(circle at 45% 30%, #404552 0%, #242730 55%, #15171c 100%);
+  --ds-dock-icon: #c4c7ce;
+  --ds-dock-icon-hover: #ffffff;
+
+  /* 3 Reusable Shadow Depths (Small, Medium, Large) */
+  --ds-shadow-sm: 0 1px 2px rgba(15, 17, 21, 0.05), 0 1px 3px rgba(15, 17, 21, 0.04);
+  --ds-shadow-md: 0 4px 16px rgba(15, 17, 21, 0.06), 0 1px 3px rgba(15, 17, 21, 0.04);
+  --ds-shadow-lg: 0 16px 48px rgba(15, 17, 21, 0.1), 0 4px 12px rgba(15, 17, 21, 0.05);
+
+  --ds-shadow-card: 0 1px 3px rgba(15, 17, 21, 0.05), 0 12px 32px rgba(15, 17, 21, 0.04);
+  --ds-shadow-popover: 0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06);
+  --ds-shadow-tactile: 0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --ds-shadow-primary: 0 2px 8px rgba(15, 17, 21, 0.18);
+
+  --ds-status-success-bg: rgba(34, 197, 94, 0.12);
+  --ds-status-success-text: #15803d;
+  --ds-status-warning-bg: rgba(245, 158, 11, 0.14);
+  --ds-status-warning-text: #b45309;
+  --ds-status-error-bg: rgba(239, 68, 68, 0.12);
+  --ds-status-error-text: #b91c1c;
+  --ds-status-info-bg: rgba(59, 130, 246, 0.12);
+  --ds-status-info-text: #1d4ed8;
+
+  font-family: var(--ds-font-serif);
+  background-color: var(--ds-color-canvas);
+  color: var(--ds-color-ink);
+  min-height: 100vh;
+}
+
+.design-system-showcase-root * {
+  box-sizing: border-box;
+}
+
+.design-system-showcase-root .font-heading,
+.design-system-showcase-root .font-display {
+  font-family: var(--ds-font-heading);
+}
+
+.design-system-showcase-root .font-serif {
+  font-family: var(--ds-font-serif);
+}
+
+.design-system-showcase-root .font-sans,
+.design-system-showcase-root .font-body {
+  font-family: var(--ds-font-sans);
+}
+
+/* Tactile Button Shadows */
+.design-system-showcase-root .tactile-embossed-active {
+  background: #ffffff;
+  color: #1a1c1f;
+  border: 1px solid #e5e7eb;
+  box-shadow: var(--ds-shadow-tactile);
+}
+
+.design-system-showcase-root .tactile-press {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.design-system-showcase-root .tactile-press:active {
+  transform: scale(0.98);
+}
+
+/* Reusable Elevation Shadow Utility Classes */
+.design-system-showcase-root .ds-shadow-sm {
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.design-system-showcase-root .ds-shadow-md {
+  box-shadow: var(--ds-shadow-md);
+}
+
+.design-system-showcase-root .ds-shadow-lg {
+  box-shadow: var(--ds-shadow-lg);
+}
+
+/* =========================================================================
+   PSEUDO 3-D OBSIDIAN BUTTON SPECIFICATION (MATCHING SCREENSHOT REFERENCE)
+   ========================================================================= */
+
+.design-system-showcase-root .btn-3d-obsidian {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #24272f 0%, #16181d 55%, #0d0e11 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    /* Top hairline highlight */
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.28),
+    /* Upper interior soft light */
+    inset 0 2px 5px 0 rgba(255, 255, 255, 0.08),
+    /* Distinct bottom crescent light reflection (from screenshot) */
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.9),
+    /* Bottom volumetric inner glow rising upwards */
+    inset 0 -7px 16px -2px rgba(255, 255, 255, 0.35),
+    /* Outer physical drop shadow */
+    0 8px 24px -2px rgba(10, 12, 16, 0.45),
+    0 2px 6px 0 rgba(10, 12, 16, 0.3);
+  font-family: var(--ds-font-sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease;
+}
+
+/* Subtle Shimmer Sweep on Hover */
+.design-system-showcase-root .btn-3d-obsidian::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 100%
+  );
+  transform: skewX(-22deg);
+  opacity: 0;
+  transition: opacity 0.2s ease, left 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Hover Animation Status */
+.design-system-showcase-root .btn-3d-obsidian:hover {
+  transform: translateY(-1.5px) scale(1.015);
+  filter: brightness(1.08);
+  border-color: rgba(255, 255, 255, 0.26);
+  box-shadow:
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.42),
+    inset 0 2px 6px 0 rgba(255, 255, 255, 0.14),
+    /* Intensified bottom crescent glow */
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 1),
+    inset 0 -9px 22px -2px rgba(255, 255, 255, 0.45),
+    /* Expanded ambient shadow */
+    0 14px 34px -4px rgba(10, 12, 16, 0.55),
+    0 4px 10px 0 rgba(10, 12, 16, 0.35);
+}
+
+.design-system-showcase-root .btn-3d-obsidian:hover::before {
+  opacity: 1;
+  left: 140%;
+}
+
+/* Active Press Status */
+.design-system-showcase-root .btn-3d-obsidian:active {
+  transform: translateY(1px) scale(0.98);
+  filter: brightness(0.96);
+  box-shadow:
+    inset 0 2px 5px 0 rgba(0, 0, 0, 0.65),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.45),
+    0 2px 6px 0 rgba(10, 12, 16, 0.35);
+}
+
+/* =========================================================================
+   PSEUDO 3-D SECONDARY CERAMIC BUTTON
+   ========================================================================= */
+
+.design-system-showcase-root .btn-3d-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 60%, #f1f2f4 100%);
+  color: #1a1c1f;
+  border: 1px solid #dcdfe4;
+  box-shadow:
+    /* Top edge crisp highlight */
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
+    /* Soft bottom rim shade */
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.08),
+    inset 0 -4px 8px -2px rgba(0, 0, 0, 0.05),
+    /* Ambient shadow */
+    0 2px 6px rgba(15, 17, 21, 0.06),
+    0 1px 2px rgba(15, 17, 21, 0.04);
+  font-family: var(--ds-font-sans);
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  transition:
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s ease;
+}
+
+.design-system-showcase-root .btn-3d-secondary:hover {
+  transform: translateY(-1.5px) scale(1.015);
+  filter: brightness(1.02);
+  border-color: #cbd0d7;
+  box-shadow:
+    inset 0 1px 0 0 #ffffff,
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.12),
+    inset 0 -5px 12px -2px rgba(0, 0, 0, 0.08),
+    0 6px 16px rgba(15, 17, 21, 0.1),
+    0 2px 4px rgba(15, 17, 21, 0.05);
+}
+
+.design-system-showcase-root .btn-3d-secondary:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(15, 17, 21, 0.05);
+}
+
+/* =========================================================================
+   PSEUDO 3-D FLOATING COMMAND BAR / ACTION DOCK
+   ========================================================================= */
+
+.design-system-showcase-root .floating-action-dock {
+  position: relative;
+  background: var(--ds-dock-gradient);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  box-shadow:
+    /* Top edge hairline highlight */
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.28),
+    /* Soft interior upper sheen */
+    inset 0 2px 6px 0 rgba(255, 255, 255, 0.06),
+    /* Bottom crescent reflection */
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.8),
+    /* Volumetric glow along bottom edge */
+    inset 0 -8px 24px -4px rgba(255, 255, 255, 0.28),
+    /* Ambient elevation shadows */
+    0 16px 44px -4px rgba(10, 12, 16, 0.42),
+    0 4px 14px -2px rgba(10, 12, 16, 0.28);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+  overflow: hidden;
+}
+
+/* Subtle ambient shimmer across command bar on hover */
+.design-system-showcase-root .floating-action-dock::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  opacity: 0;
+  transition: opacity 0.3s ease, left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.design-system-showcase-root .floating-action-dock:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.38),
+    inset 0 2px 8px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -10px 28px -4px rgba(255, 255, 255, 0.38),
+    0 22px 56px -6px rgba(10, 12, 16, 0.5),
+    0 6px 18px -2px rgba(10, 12, 16, 0.32);
+}
+
+.design-system-showcase-root .floating-action-dock:hover::before {
+  opacity: 1;
+  left: 140%;
+}
+
+/* 3-D Elevated Plus Button in Command Bar */
+.design-system-showcase-root .dock-plus-btn {
+  position: relative;
+  background: var(--ds-dock-button);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -3px 8px -1px rgba(255, 255, 255, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition:
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.design-system-showcase-root .dock-plus-btn:hover {
+  transform: scale(1.08) translateY(-1px);
+  filter: brightness(1.18);
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 1),
+    inset 0 -4px 10px 0 rgba(255, 255, 255, 0.55),
+    0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+.design-system-showcase-root .dock-plus-btn:active {
+  transform: scale(0.95) translateY(0.5px);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.7),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.35);
+}
+
+/* 3-D Interactive Icon Buttons inside Command Bar */
+.design-system-showcase-root .dock-action-btn {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  color: var(--ds-dock-icon);
+  cursor: pointer;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.design-system-showcase-root .dock-action-btn:hover {
+  transform: translateY(-1px) scale(1.06);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.45),
+    0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.design-system-showcase-root .dock-action-btn:active {
+  transform: scale(0.95);
+}
+
+/* Status Spinners */
+@keyframes ds-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.design-system-showcase-root .ds-spinner {
+  animation: ds-spin 0.8s linear infinite;
+}

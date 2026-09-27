@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 import { AccountMenu } from "../components/AccountMenu";
+import { Logo } from "../components/Logo";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
@@ -39,7 +40,7 @@ export function ProfilePage() {
     <div className="flex min-h-svh flex-col bg-paper">
       <header className="flex items-center justify-between border-b border-hairline px-6 py-5">
         <div className="flex items-center gap-4">
-          <p className="font-display text-2xl tracking-tight text-ink">Inklet</p>
+          <Logo />
           <Link
             to="/dashboard"
             className="font-sans text-sm text-muted underline-offset-4 hover:text-ink hover:underline"

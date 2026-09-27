@@ -18,7 +18,7 @@ export function Input({
 
   return (
     <label className="flex flex-col gap-1.5 text-left" htmlFor={inputId}>
-      <span className="font-sans text-xs tracking-wide text-muted uppercase">
+      <span className="font-sans text-xs font-semibold text-[#5C6068]">
         {label}
       </span>
       <input
@@ -33,17 +33,20 @@ export function Input({
               : undefined
         }
         className={[
-          "w-full rounded-lg border bg-surface px-3 py-2.5 font-serif text-ink",
-          "placeholder:text-muted/70",
-          "disabled:cursor-not-allowed disabled:bg-paper disabled:text-muted",
-          error ? "border-red-700/50" : "border-hairline",
+          "h-11 w-full rounded-[14px] border bg-white px-3.5 font-sans text-sm text-[#1A1C1F] transition",
+          "placeholder:text-[#8B909A]",
+          "focus:outline-none",
+          "disabled:cursor-not-allowed disabled:bg-[#F8F9FA] disabled:text-[#8B909A]",
+          error
+            ? "border-[#EF4444] focus:border-[#EF4444] focus:shadow-[0_0_0_3px_rgba(239,68,68,0.25)]"
+            : "border-[#E5E7EB] focus:border-[#93C5FD] focus:shadow-[0_0_0_3px_rgba(59,130,246,0.25)]",
         ].join(" ")}
         {...props}
       />
       {hint && !error ? (
         <span
           id={inputId ? `${inputId}-hint` : undefined}
-          className="font-sans text-xs text-muted"
+          className="font-sans text-xs text-[#8B909A]"
         >
           {hint}
         </span>
@@ -51,7 +54,7 @@ export function Input({
       {error ? (
         <span
           id={inputId ? `${inputId}-error` : undefined}
-          className="font-sans text-sm text-red-800"
+          className="font-sans text-xs font-medium text-[#B91C1C]"
           role="alert"
         >
           {error}

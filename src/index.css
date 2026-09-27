@@ -1,17 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #faf8f4;
+  --color-paper: #f3f4f6;
+  --color-canvas: #f3f4f6;
   --color-surface: #ffffff;
-  --color-ink: #1f1b16;
-  --color-muted: #6b645a;
-  --color-accent: #2f3e46;
-  --color-hairline: #e8e3da;
+  --color-surface-subtle: #f8f9fa;
+  --color-surface-hover: #f1f2f4;
+  --color-surface-active: #ebecef;
+  --color-ink: #1a1c1f;
+  --color-ink-primary: #1a1c1f;
+  --color-muted: #5c6068;
+  --color-ink-secondary: #5c6068;
+  --color-tertiary: #8b909a;
+  --color-ink-tertiary: #8b909a;
+  --color-ink-inverse: #f7f8fa;
+  --color-accent: #1e2025;
+  --color-accent-hover: #2a2d34;
+  --color-hairline: #e5e7eb;
+  --color-divider: #eef0f3;
+  --color-border-strong: #d1d5db;
+  --color-dock-base: #2a2d34;
+  --color-dock-deep: #1e2025;
+  --color-dock-icon: #c4c7ce;
+  --color-focus: #3b82f6;
+
   --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --shadow-soft:
-    0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(31, 27, 22, 0.06);
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(15, 17, 21, 0.05), 0 1px 3px rgba(15, 17, 21, 0.04);
+  --shadow-md: 0 4px 16px rgba(15, 17, 21, 0.06), 0 1px 3px rgba(15, 17, 21, 0.04);
+  --shadow-lg: 0 16px 48px rgba(15, 17, 21, 0.1), 0 4px 12px rgba(15, 17, 21, 0.05);
+  --shadow-soft: 0 1px 3px rgba(15, 17, 21, 0.05), 0 12px 32px rgba(15, 17, 21, 0.04);
+  --shadow-card: 0 1px 3px rgba(15, 17, 21, 0.05), 0 12px 32px rgba(15, 17, 21, 0.04);
+  --shadow-popover: 0 12px 40px rgba(15, 17, 21, 0.12), 0 2px 8px rgba(15, 17, 21, 0.06);
+  --shadow-tactile: 0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-primary: 0 2px 8px rgba(15, 17, 21, 0.18);
+  --shadow-dock: 0 10px 32px rgba(15, 17, 21, 0.28), 0 2px 8px rgba(15, 17, 21, 0.18);
 }
 
 *,
@@ -40,25 +67,172 @@ body {
   min-height: 100svh;
 }
 
-h1,
-h2,
-h3,
+.font-heading,
 .font-display {
   font-family: var(--font-display);
 }
 
-.font-sans {
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans,
+.font-body {
   font-family: var(--font-sans);
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  background: rgba(59, 130, 246, 0.18);
   color: var(--color-ink);
+}
+
+/* Tactile Active Format & Button States */
+.tactile-embossed-active {
+  background: #ffffff;
+  color: #1a1c1f;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(15, 17, 21, 0.08), 0 2px 6px rgba(15, 17, 21, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.tactile-press {
+  transition: transform 0.15s ease, filter 0.15s ease, background-color 0.15s ease;
+}
+
+.tactile-press:active {
+  transform: scale(0.98);
+}
+
+/* Reusable Shadow Elevation Utilities */
+.ds-shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.ds-shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.ds-shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Floating Obsidian Action Dock */
+.floating-action-dock {
+  position: relative;
+  background: linear-gradient(180deg, #252830 0%, #16181d 55%, #0d0e11 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 2px 6px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -8px 24px -4px rgba(255, 255, 255, 0.28),
+    0 16px 44px -4px rgba(10, 12, 16, 0.42),
+    0 4px 14px -2px rgba(10, 12, 16, 0.28);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+}
+
+.floating-action-dock:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.38),
+    inset 0 2px 8px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -10px 28px -4px rgba(255, 255, 255, 0.38),
+    0 22px 56px -6px rgba(10, 12, 16, 0.5),
+    0 6px 18px -2px rgba(10, 12, 16, 0.32);
+}
+
+.dock-plus-btn {
+  position: relative;
+  background: radial-gradient(circle at 45% 30%, #404552 0%, #242730 55%, #15171c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -3px 8px -1px rgba(255, 255, 255, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition:
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.dock-plus-btn:hover {
+  transform: scale(1.08) translateY(-1px);
+  filter: brightness(1.18);
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow:
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 2px 0 rgba(255, 255, 255, 1),
+    inset 0 -4px 10px 0 rgba(255, 255, 255, 0.55),
+    0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+.dock-plus-btn:active {
+  transform: scale(0.95) translateY(0.5px);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.7),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.dock-action-btn {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  color: #c4c7ce;
+  cursor: pointer;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.dock-action-btn:hover {
+  transform: translateY(-1px) scale(1.06);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.45),
+    0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dock-action-btn:active {
+  transform: scale(0.95);
+}
+
+/* Status Spinners */
+@keyframes ds-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ds-spinner {
+  animation: ds-spin 0.8s linear infinite;
 }
 
 /* TipTap document body */
@@ -90,15 +264,17 @@ h3,
 }
 
 .prose-inklet .ProseMirror h1 {
-  font-size: 1.85rem;
+  font-size: 2rem;
+  letter-spacing: -0.015em;
 }
 
 .prose-inklet .ProseMirror h2 {
-  font-size: 1.45rem;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
 }
 
 .prose-inklet .ProseMirror h3 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
 }
 
 .prose-inklet .ProseMirror ul,
@@ -126,12 +302,13 @@ h3,
 .prose-inklet .ProseMirror blockquote {
   margin: 0 0 1em;
   padding: 0.15em 0 0.15em 1em;
-  border-left: 1px solid var(--color-hairline);
+  border-left: 2px solid var(--color-hairline);
   color: var(--color-muted);
+  font-style: italic;
 }
 
 .prose-inklet .ProseMirror a {
-  color: var(--color-accent);
+  color: #3b82f6;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -142,6 +319,6 @@ h3,
   float: left;
   height: 0;
   pointer-events: none;
-  color: var(--color-muted);
+  color: var(--color-tertiary);
   font-family: var(--font-serif);
 }

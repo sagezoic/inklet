@@ -1,6 +1,6 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useAction, useQuery } from "convex/react";
-import { User } from "lucide-react";
+import { CreditCard, LogOut, Sparkles, User } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ function accountLabel(
   if (user === undefined) {
     return "Account";
   }
-  if (user.name !== null) {
+  if (user.name !== null && user.name.trim().length > 0) {
     return user.name;
   }
   if (user.email !== null) {
@@ -109,9 +109,9 @@ export function AccountMenu() {
         onClick={() => {
           setOpen((value) => !value);
         }}
-        className="inline-flex size-9 items-center justify-center rounded-full border border-hairline bg-surface text-ink transition-colors hover:bg-hairline/60"
+        className="tactile-press inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[#1A1C1F] shadow-sm transition hover:bg-[#F8F9FA] active:scale-[0.98]"
       >
-        <User className="size-4" aria-hidden />
+        <User className="size-4 text-[#5C6068]" aria-hidden />
       </button>
 
       {open ? (
@@ -119,39 +119,65 @@ export function AccountMenu() {
           id={menuId}
           role="menu"
           aria-label="Account"
-          className="absolute right-0 z-50 mt-1 min-w-[10rem] rounded-lg border border-hairline bg-surface py-1 shadow-soft"
+          className="absolute right-0 z-50 mt-2 min-w-[13rem] rounded-2xl border border-[#E5E7EB] bg-white p-1.5 shadow-[0_12px_40px_rgba(15,17,21,0.12),0_2px_8px_rgba(15,17,21,0.06)]"
         >
-          <Link
-            to="/profile"
-            role="menuitem"
-            className="block px-3 py-2 font-sans text-sm text-ink transition-colors hover:bg-hairline/60"
-            onClick={close}
-          >
-            Profile
-          </Link>
-          <button
-            type="button"
-            role="menuitem"
-            disabled={portalPending}
-            aria-busy={portalPending || undefined}
-            className="block w-full px-3 py-2 text-left font-sans text-sm text-ink transition-colors hover:bg-hairline/60 disabled:cursor-not-allowed disabled:opacity-70"
-            onClick={() => {
-              void handleManageSubscription();
-            }}
-          >
-            Manage subscription
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            className="block w-full px-3 py-2 text-left font-sans text-sm text-ink transition-colors hover:bg-hairline/60"
-            onClick={() => {
-              close();
-              void signOut();
-            }}
-          >
-            Sign out
-          </button>
+          <div className="border-b border-[#EEF0F3] px-3 py-2">
+            <div className="truncate font-sans text-xs font-semibold text-[#1A1C1F]">
+              {label}
+            </div>
+            {current?.email && (
+              <div className="truncate font-sans text-[11px] text-[#8B909A]">
+                {current.email}
+              </div>
+            )}
+          </div>
+
+          <div className="pt-1">
+            <Link
+              to="/profile"
+              role="menuitem"
+              className="flex items-center gap-2 rounded-xl px-3 py-2 font-sans text-xs font-medium text-[#1A1C1F] transition hover:bg-[#F1F2F4]"
+              onClick={close}
+            >
+              <User className="size-3.5 text-[#5C6068]" />
+              Profile
+            </Link>
+            <Link
+              to="/design-system"
+              role="menuitem"
+              className="flex items-center gap-2 rounded-xl px-3 py-2 font-sans text-xs font-medium text-[#1A1C1F] transition hover:bg-[#F1F2F4]"
+              onClick={close}
+            >
+              <Sparkles className="size-3.5 text-[#3B82F6]" />
+              Style Guide
+            </Link>
+            <button
+              type="button"
+              role="menuitem"
+              disabled={portalPending}
+              aria-busy={portalPending || undefined}
+              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left font-sans text-xs font-medium text-[#1A1C1F] transition hover:bg-[#F1F2F4] disabled:cursor-not-allowed disabled:opacity-50"
+              onClick={() => {
+                void handleManageSubscription();
+              }}
+            >
+              <CreditCard className="size-3.5 text-[#5C6068]" />
+              Manage subscription
+            </button>
+            <div className="my-1 h-[1px] bg-[#EEF0F3]" />
+            <button
+              type="button"
+              role="menuitem"
+              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left font-sans text-xs font-medium text-[#EF4444] transition hover:bg-red-50"
+              onClick={() => {
+                close();
+                void signOut();
+              }}
+            >
+              <LogOut className="size-3.5" />
+              Sign out
+            </button>
+          </div>
         </div>
       ) : null}
     </div>

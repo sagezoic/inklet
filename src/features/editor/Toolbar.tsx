@@ -40,10 +40,10 @@ function ToolbarButton({
       aria-pressed={active === true ? true : undefined}
       disabled={disabled}
       onClick={onClick}
-      className={`inline-flex size-8 items-center justify-center rounded-md font-sans text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`inline-flex size-8 items-center justify-center rounded-[10px] font-sans text-sm transition-all disabled:cursor-not-allowed disabled:opacity-40 ${
         active
-          ? "bg-accent text-surface"
-          : "text-muted hover:bg-hairline/70 hover:text-ink"
+          ? "tactile-embossed-active font-bold text-ink"
+          : "text-muted hover:bg-hairline/60 hover:text-ink"
       }`}
     >
       {children}
