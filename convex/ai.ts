@@ -47,11 +47,14 @@ const chatResultValidator = v.object({
 });
 
 const MAX_MESSAGE_LENGTH = 4000;
+const MAX_CONTEXT_SNIPPETS = 10;
+const MAX_CONTEXT_SNIPPET_LENGTH = 8000;
 
 const SYSTEM_INSTRUCTION = `You are a writing partner editing one document.
 Ground claims in the provided knowledge. Do not invent facts beyond that knowledge and the document.
 Allowed HTML tags only: p, h1, h2, h3, ul, ol, li, strong, em, blockquote, a, br. No script, style, or class attributes.
-Edit types: none (questions, no document change), replace_document (rewrite the whole doc), replace_selection (only when a selection was provided), insert_at_cursor (insert at the user's cursor), append (add at the end). If a selection is present and the user asks to change that passage, use replace_selection. If they ask a question, use none and leave html empty.`;
+Edit types: none (questions, no document change), replace_document (rewrite the whole doc), replace_selection (only when a selection was provided), insert_at_cursor (insert at the user's cursor), append (add at the end). If a selection is present and the user asks to change that passage, use replace_selection. If they ask a question, use none and leave html empty.
+The user may attach excerpts from the document as context. Treat them as the passages the user is referring to.`;
 
 const responseSchema = {
   type: Type.OBJECT,
@@ -174,6 +177,7 @@ export const chat = action({
     message: v.string(),
     documentHtml: v.string(),
     selectionText: v.optional(v.string()),
+    contextSnippets: v.optional(v.array(v.string())),
   },
   returns: chatResultValidator,
   handler: async (ctx, args): Promise<ChatResult> => {
@@ -194,6 +198,24 @@ export const chat = action({
     if (trimmed.length > MAX_MESSAGE_LENGTH) {
       throw new Error(
         `Message is too long (max ${MAX_MESSAGE_LENGTH} characters)`,
+      );
+    }
+
+    const contextSnippets = (args.contextSnippets ?? [])
+      .map((snippet) => snippet.trim())
+      .filter((snippet) => snippet.length > 0);
+    if (contextSnippets.length > MAX_CONTEXT_SNIPPETS) {
+      throw new Error(
+        `Too many context excerpts (max ${MAX_CONTEXT_SNIPPETS})`,
+      );
+    }
+    if (
+      contextSnippets.some(
+        (snippet) => snippet.length > MAX_CONTEXT_SNIPPET_LENGTH,
+      )
+    ) {
+      throw new Error(
+        `Context excerpt is too long (max ${MAX_CONTEXT_SNIPPET_LENGTH} characters)`,
       );
     }
 
@@ -229,6 +251,13 @@ export const chat = action({
         ? `\n\nSelection:\n${args.selectionText}`
         : "";
 
+    const contextSection =
+      contextSnippets.length > 0
+        ? `\n\nAttached context excerpts:\n${contextSnippets
+            .map((snippet) => `<excerpt>${snippet}</excerpt>`)
+            .join("\n")}`
+        : "";
+
     const userContents = [
       "Knowledge:",
       knowledgeBlocks || "(none)",
@@ -236,6 +265,7 @@ export const chat = action({
       "Current document HTML:",
       args.documentHtml,
       selectionSection,
+      contextSection,
       "",
       "Recent chat:",
       chatHistory || "(none)",

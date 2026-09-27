@@ -1,5 +1,6 @@
 import { useAction, useQuery } from "convex/react";
 import type { Editor } from "@tiptap/react";
+import { TextQuote, X } from "lucide-react";
 import {
   useEffect,
   useRef,
@@ -20,12 +21,32 @@ const textareaClassName = [
   "disabled:cursor-not-allowed disabled:bg-paper disabled:text-muted",
 ].join(" ");
 
+export type ChatContextItem = {
+  id: string;
+  text: string;
+};
+
 type ChatSidebarProps = {
   documentId: Id<"documents">;
   editor: Editor | null;
+  contextItems: ChatContextItem[];
+  onRemoveContextItem: (id: string) => void;
+  onClearContext: () => void;
 };
 
-export function ChatSidebar({ documentId, editor }: ChatSidebarProps) {
+function previewContextText(text: string): string {
+  const words = text.split(/\s+/).filter((word) => word.length > 0);
+  const preview = words.slice(0, 2).join(" ");
+  return words.length > 2 ? `${preview}…` : preview;
+}
+
+export function ChatSidebar({
+  documentId,
+  editor,
+  contextItems,
+  onRemoveContextItem,
+  onClearContext,
+}: ChatSidebarProps) {
   const messages = useQuery(api.chat.listForDocument, { documentId });
   const knowledge = useQuery(api.knowledge.listForDocument, { documentId });
   const chat = useAction(api.ai.chat);
@@ -88,6 +109,8 @@ export function ChatSidebar({ documentId, editor }: ChatSidebarProps) {
       documentHtml = editor.getHTML();
     }
 
+    const contextSnippets = contextItems.map((item) => item.text);
+
     setDraft("");
     setPending(true);
     setPendingUserText(trimmed);
@@ -98,7 +121,10 @@ export function ChatSidebar({ documentId, editor }: ChatSidebarProps) {
         message: trimmed,
         documentHtml,
         ...(selectionText !== undefined ? { selectionText } : {}),
+        ...(contextSnippets.length > 0 ? { contextSnippets } : {}),
       });
+
+      onClearContext();
 
       if (editor !== null) {
         applyAiEdit(editor, result.edit, selectionRange);
@@ -179,6 +205,33 @@ export function ChatSidebar({ documentId, editor }: ChatSidebarProps) {
         className="flex flex-col gap-3 border-t border-hairline px-4 py-4"
         onSubmit={handleSubmit}
       >
+        {contextItems.length > 0 ? (
+          <ul className="flex flex-wrap gap-1.5" aria-label="Chat context">
+            {contextItems.map((item) => (
+              <li
+                key={item.id}
+                title={item.text}
+                className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-hairline bg-surface py-1 pr-1 pl-2 font-sans text-xs text-ink"
+              >
+                <TextQuote className="size-3.5 shrink-0 text-muted" aria-hidden />
+                <span className="max-w-[160px] truncate">
+                  {previewContextText(item.text)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onRemoveContextItem(item.id);
+                  }}
+                  disabled={pending}
+                  aria-label={`Remove "${previewContextText(item.text)}" from context`}
+                  className="inline-flex size-4 shrink-0 items-center justify-center rounded text-muted transition-colors hover:bg-hairline/60 hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <X className="size-3" aria-hidden />
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
         <label className="flex flex-col gap-1.5 text-left">
           <span className="font-sans text-xs tracking-wide text-muted uppercase">
             Message

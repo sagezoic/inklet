@@ -12,13 +12,14 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
+  type ReactNode,
 } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { AccountMenu } from "../components/AccountMenu";
-import { ChatSidebar } from "../features/chat/ChatSidebar";
+import { ChatSidebar, type ChatContextItem } from "../features/chat/ChatSidebar";
 import { Editor } from "../features/editor/Editor";
 import { useAutosave } from "../features/editor/useAutosave";
 import { KnowledgeSidebar } from "../features/knowledge/KnowledgeSidebar";
@@ -77,6 +78,7 @@ function DocumentEditor({
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
   const [editor, setEditor] = useState<TiptapEditor | null>(null);
+  const [chatContext, setChatContext] = useState<ChatContextItem[]>([]);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const committedTitleRef = useRef(title);
 
@@ -219,9 +221,9 @@ function DocumentEditor({
       </header>
 
       <div className="flex min-h-0 flex-1">
-        {sidebarOpen ? (
+        <CollapsiblePanel side="left" open={sidebarOpen} width={300}>
           <KnowledgeSidebar documentId={documentId} />
-        ) : null}
+        </CollapsiblePanel>
 
         <main className="flex min-w-0 flex-1 justify-center overflow-y-auto px-4 py-8 sm:px-6">
           <div className="w-full max-w-[760px] rounded-2xl border border-hairline bg-surface p-6 shadow-soft sm:p-8">
@@ -229,13 +231,66 @@ function DocumentEditor({
               initialHtml={content}
               onChange={onChange}
               onEditor={setEditor}
+              onAddToChatContext={(text) => {
+                setChatContext((items) =>
+                  items.some((item) => item.text === text)
+                    ? items
+                    : [...items, { id: crypto.randomUUID(), text }],
+                );
+                setChatOpen(true);
+              }}
             />
           </div>
         </main>
 
-        {chatOpen ? (
-          <ChatSidebar documentId={documentId} editor={editor} />
-        ) : null}
+        <CollapsiblePanel side="right" open={chatOpen} width={360}>
+          <ChatSidebar
+            documentId={documentId}
+            editor={editor}
+            contextItems={chatContext}
+            onRemoveContextItem={(id) => {
+              setChatContext((items) => items.filter((item) => item.id !== id));
+            }}
+            onClearContext={() => {
+              setChatContext([]);
+            }}
+          />
+        </CollapsiblePanel>
+      </div>
+    </div>
+  );
+}
+
+function CollapsiblePanel({
+  side,
+  open,
+  width,
+  children,
+}: {
+  side: "left" | "right";
+  open: boolean;
+  width: number;
+  children: ReactNode;
+}) {
+  const hiddenOffset = side === "left" ? "-translate-x-6" : "translate-x-6";
+
+  return (
+    <div
+      className={[
+        "flex shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out motion-reduce:transition-none",
+        side === "right" ? "justify-end" : "justify-start",
+      ].join(" ")}
+      style={{ width: open ? width : 0 }}
+      inert={!open}
+    >
+      <div
+        className={[
+          "flex shrink-0 transition-[opacity,translate] duration-300 ease-in-out motion-reduce:transition-none",
+          open ? "translate-x-0 opacity-100" : `${hiddenOffset} opacity-0`,
+        ].join(" ")}
+        style={{ width }}
+      >
+        {children}
       </div>
     </div>
   );

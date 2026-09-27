@@ -4,3 +4,4 @@
 - Add the account management in the app
 - Allow the user to highlight text and add it to the AI chat context
 - Allow the user to add system instructions that guide the AI chat on the tone it should use, or writing guidelines
+- Allow the user to select from pre-created 'tone' system instruction that guide the AI on a specific tone of voice.

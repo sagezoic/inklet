@@ -1,11 +1,7 @@
 import { useMutation, usePaginatedQuery } from "convex/react";
 import {
-  ArrowRight,
-  BookOpen,
-  Cloud,
   FileText,
   Search,
-  Sparkles,
   Trash2,
 } from "lucide-react";
 import { useState } from "react";
@@ -36,27 +32,6 @@ function excerptFromContent(content: string): string {
   }
   return `${plain.slice(0, EXCERPT_MAX).trimEnd()}…`;
 }
-
-const features = [
-  {
-    icon: BookOpen,
-    title: "Knowledge at hand",
-    description:
-      "Pin source notes beside your draft so research never lives in another tab.",
-  },
-  {
-    icon: Sparkles,
-    title: "An AI co-writer",
-    description:
-      "Ask for outlines, rewrites, or a second opinion grounded in what you've gathered.",
-  },
-  {
-    icon: Cloud,
-    title: "Quiet autosave",
-    description:
-      "Every keystroke settles in the background. Close the tab — your words stay.",
-  },
-] as const;
 
 function greetingFor(timestamp: number): string {
   const hour = new Date(timestamp).getHours();
@@ -202,13 +177,6 @@ export function DashboardPage() {
               >
                 Start a new draft
               </Button>
-              <a
-                href="#documents"
-                className="inline-flex items-center gap-1.5 font-sans text-sm text-muted underline-offset-4 hover:text-ink hover:underline"
-              >
-                Browse your library
-                <ArrowRight className="size-4" aria-hidden />
-              </a>
             </div>
           </div>
 
@@ -226,21 +194,6 @@ export function DashboardPage() {
           </Card>
         </section>
 
-        <section className="mb-16 grid gap-5 sm:grid-cols-3">
-          {features.map(({ icon: Icon, title, description }) => (
-            <Card key={title} className="p-6">
-              <div className="flex size-10 items-center justify-center rounded-xl border border-hairline bg-paper shadow-sm">
-                <Icon className="size-5 text-ink" aria-hidden />
-              </div>
-              <h3 className="mt-4 font-display text-xl text-ink">{title}</h3>
-              <p className="mt-2 font-serif text-base leading-relaxed text-muted">
-                {description}
-              </p>
-            </Card>
-          ))}
-        </section>
-
-        <div id="documents" className="scroll-mt-8" />
         {!isEmpty ? (
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -381,31 +334,6 @@ export function DashboardPage() {
             ) : null}
           </>
         )}
-
-        <section className="mt-20 overflow-hidden rounded-3xl bg-ink px-8 py-12 text-paper shadow-lg sm:px-12">
-          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-lg">
-              <p className="font-sans text-xs font-medium tracking-[0.2em] text-paper/60 uppercase">
-                Today's prompt
-              </p>
-              <blockquote className="mt-3 font-display text-2xl leading-snug italic sm:text-3xl">
-                “Write the sentence you've been avoiding. The rest will follow.”
-              </blockquote>
-              <p className="mt-4 font-serif text-base text-paper/70">
-                Ten quiet minutes is all it takes to move a draft forward.
-              </p>
-            </div>
-            <button
-              type="button"
-              disabled={creating}
-              onClick={() => void handleCreate()}
-              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-paper px-6 py-3 font-sans text-sm font-medium text-ink shadow-sm transition-transform hover:-translate-y-0.5 disabled:opacity-60 md:self-auto"
-            >
-              Begin writing
-              <ArrowRight className="size-4" aria-hidden />
-            </button>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-hairline py-10">
