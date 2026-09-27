@@ -4,7 +4,10 @@ import {
 } from "convex/server";
 import { v } from "convex/values";
 import { getOwnedDocument } from "./lib/access";
-import { authedMutation, authedQuery } from "./lib/customFunctions";
+import {
+  subscribedMutation,
+  subscribedQuery,
+} from "./lib/customFunctions";
 
 const documentFieldsValidator = v.object({
   _id: v.id("documents"),
@@ -13,7 +16,7 @@ const documentFieldsValidator = v.object({
   updatedAt: v.number(),
 });
 
-export const list = authedQuery({
+export const list = subscribedQuery({
   args: {
     paginationOpts: paginationOptsValidator,
   },
@@ -37,7 +40,7 @@ export const list = authedQuery({
   },
 });
 
-export const get = authedQuery({
+export const get = subscribedQuery({
   args: {
     documentId: v.id("documents"),
   },
@@ -56,7 +59,7 @@ export const get = authedQuery({
   },
 });
 
-export const create = authedMutation({
+export const create = subscribedMutation({
   args: {
     title: v.optional(v.string()),
   },
@@ -72,7 +75,7 @@ export const create = authedMutation({
   },
 });
 
-export const rename = authedMutation({
+export const rename = subscribedMutation({
   args: {
     documentId: v.id("documents"),
     title: v.string(),
@@ -92,7 +95,7 @@ export const rename = authedMutation({
   },
 });
 
-export const saveContent = authedMutation({
+export const saveContent = subscribedMutation({
   args: {
     documentId: v.id("documents"),
     content: v.string(),
@@ -108,7 +111,7 @@ export const saveContent = authedMutation({
   },
 });
 
-export const remove = authedMutation({
+export const remove = subscribedMutation({
   args: {
     documentId: v.id("documents"),
   },

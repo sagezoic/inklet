@@ -1,0 +1,6 @@
+- There is no option to clear chat. Add a delete icon on click which will pop up dialog
+- Rather than automatically inserting the text to document show it in chat and give a insert to document button and only after clicking it, it will be inserted to doc.
+- Link and Italics are not working
+- Add the account management in the app
+- Allow the user to highlight text and add it to the AI chat context
+- Allow the user to add system instructions that guide the AI chat on the tone it should use, or writing guidelines

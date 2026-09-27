@@ -10,12 +10,16 @@
 
 import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
+import type * as billing from "../billing.js";
 import type * as chat from "../chat.js";
 import type * as documents from "../documents.js";
 import type * as http from "../http.js";
 import type * as knowledge from "../knowledge.js";
 import type * as lib_access from "../lib/access.js";
 import type * as lib_customFunctions from "../lib/customFunctions.js";
+import type * as lib_entitlement from "../lib/entitlement.js";
+import type * as polar from "../polar.js";
+import type * as polarWebhook from "../polarWebhook.js";
 import type * as users from "../users.js";
 
 import type {
@@ -27,12 +31,16 @@ import type {
 declare const fullApi: ApiFromModules<{
   ai: typeof ai;
   auth: typeof auth;
+  billing: typeof billing;
   chat: typeof chat;
   documents: typeof documents;
   http: typeof http;
   knowledge: typeof knowledge;
   "lib/access": typeof lib_access;
   "lib/customFunctions": typeof lib_customFunctions;
+  "lib/entitlement": typeof lib_entitlement;
+  polar: typeof polar;
+  polarWebhook: typeof polarWebhook;
   users: typeof users;
 }>;
 
@@ -62,4 +70,6 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  polar: import("@convex-dev/polar/_generated/component.js").ComponentApi<"polar">;
+};

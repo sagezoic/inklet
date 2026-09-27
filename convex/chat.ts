@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { internalMutation, internalQuery } from "./_generated/server";
 import { getOwnedDocument } from "./lib/access";
-import { authedQuery } from "./lib/customFunctions";
+import { subscribedQuery } from "./lib/customFunctions";
 
 const chatMessageFieldsValidator = v.object({
   _id: v.id("chatMessages"),
@@ -13,7 +13,7 @@ const chatMessageFieldsValidator = v.object({
 
 const roleValidator = v.union(v.literal("user"), v.literal("assistant"));
 
-export const listForDocument = authedQuery({
+export const listForDocument = subscribedQuery({
   args: {
     documentId: v.id("documents"),
   },

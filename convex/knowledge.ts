@@ -1,6 +1,9 @@
 import { v } from "convex/values";
 import { getOwnedDocument } from "./lib/access";
-import { authedMutation, authedQuery } from "./lib/customFunctions";
+import {
+  subscribedMutation,
+  subscribedQuery,
+} from "./lib/customFunctions";
 
 const knowledgeFieldsValidator = v.object({
   _id: v.id("knowledge"),
@@ -23,7 +26,7 @@ function validateKnowledgeFields(title: string, content: string) {
   return { title: trimmedTitle, content: trimmedContent };
 }
 
-export const listForDocument = authedQuery({
+export const listForDocument = subscribedQuery({
   args: {
     documentId: v.id("documents"),
   },
@@ -46,7 +49,7 @@ export const listForDocument = authedQuery({
   },
 });
 
-export const add = authedMutation({
+export const add = subscribedMutation({
   args: {
     documentId: v.id("documents"),
     title: v.string(),
@@ -75,7 +78,7 @@ export const add = authedMutation({
   },
 });
 
-export const update = authedMutation({
+export const update = subscribedMutation({
   args: {
     knowledgeId: v.id("knowledge"),
     title: v.string(),
@@ -97,7 +100,7 @@ export const update = authedMutation({
   },
 });
 
-export const remove = authedMutation({
+export const remove = subscribedMutation({
   args: {
     knowledgeId: v.id("knowledge"),
   },

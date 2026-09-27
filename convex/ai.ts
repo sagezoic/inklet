@@ -3,7 +3,7 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { ApiError, GoogleGenAI, Type } from "@google/genai";
 import { v } from "convex/values";
-import { internal } from "./_generated/api";
+import { internal, api } from "./_generated/api";
 import { action, env } from "./_generated/server";
 
 const GEMINI_MODEL = "gemini-3.8-flash";
@@ -180,6 +180,11 @@ export const chat = action({
     const userId = await getAuthUserId(ctx);
     if (userId === null) {
       throw new Error("Not authenticated");
+    }
+
+    const access = await ctx.runQuery(api.billing.access, {});
+    if (!access.entitled) {
+      throw new Error("An active subscription is required");
     }
 
     const trimmed = args.message.trim();
