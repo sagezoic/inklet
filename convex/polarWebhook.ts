@@ -1,39 +1,26 @@
-import type { Subscription } from "@polar-sh/sdk/models/components/subscription.js";
-import { webhookSubscriptionCreatedPayloadFromJSON } from "@polar-sh/sdk/models/components/webhooksubscriptioncreatedpayload.js";
-import { webhookSubscriptionUpdatedPayloadFromJSON } from "@polar-sh/sdk/models/components/webhooksubscriptionupdatedpayload.js";
-
-export function toDatabaseSubscription(subscription: Subscription) {
-  return {
-    id: subscription.id,
-    customerId: subscription.customerId,
-    createdAt: subscription.createdAt.toISOString(),
-    modifiedAt: subscription.modifiedAt?.toISOString() ?? null,
-    productId: subscription.productId,
-    checkoutId: subscription.checkoutId,
-    amount: subscription.amount,
-    currency: subscription.currency,
-    recurringInterval: subscription.recurringInterval,
-    status: subscription.status,
-    currentPeriodStart: subscription.currentPeriodStart.toISOString(),
-    currentPeriodEnd: subscription.currentPeriodEnd?.toISOString() ?? null,
-    cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
-    customerCancellationReason: subscription.customerCancellationReason,
-    customerCancellationComment: subscription.customerCancellationComment,
-    startedAt: subscription.startedAt?.toISOString() ?? null,
-    endedAt: subscription.endedAt?.toISOString() ?? null,
-    metadata: subscription.metadata,
-    discountId: subscription.discountId,
-    canceledAt: subscription.canceledAt?.toISOString() ?? null,
-    endsAt: subscription.endsAt?.toISOString() ?? null,
-    recurringIntervalCount: subscription.recurringIntervalCount,
-    trialStart: subscription.trialStart?.toISOString() ?? null,
-    trialEnd: subscription.trialEnd?.toISOString() ?? null,
-    seats: subscription.seats ?? null,
-    customFieldData: subscription.customFieldData,
-  };
-}
-
 const TOLERANCE_SECONDS = 60 * 60 * 24;
+
+export type WebhookSubscription = {
+  polarSubscriptionId: string;
+  polarCustomerId: string;
+  status: string;
+  currentPeriodEnd: number | null;
+  trialEnd: number | null;
+  email: string | null;
+  referenceId: string | null;
+  polarProductId: string | null;
+};
+
+export type WebhookProduct = {
+  polarProductId: string;
+  name: string;
+  description: string | null;
+  isArchived: boolean;
+  isRecurring: boolean;
+  recurringInterval: string | null;
+  priceAmount: number | null;
+  priceCurrency: string | null;
+};
 
 function decodeBase64(value: string): Uint8Array<ArrayBuffer> | null {
   try {
@@ -154,16 +141,124 @@ export async function webhookSignatureMatches(
   return false;
 }
 
-export function subscriptionFromWebhook(
-  body: string,
-): Subscription | null {
-  const created = webhookSubscriptionCreatedPayloadFromJSON(body);
-  if (created.ok) {
-    return created.value.data;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function stringField(record: Record<string, unknown>, key: string): string | null {
+  const value = record[key];
+  return typeof value === "string" && value.length > 0 ? value : null;
+}
+
+function timeField(record: Record<string, unknown>, key: string): number | null {
+  const value = record[key];
+  if (typeof value !== "string") {
+    return null;
   }
-  const updated = webhookSubscriptionUpdatedPayloadFromJSON(body);
-  if (updated.ok) {
-    return updated.value.data;
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+export function subscriptionFromWebhook(body: string): WebhookSubscription | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(body);
+  } catch {
+    return null;
   }
-  return null;
+  if (!isRecord(parsed)) {
+    return null;
+  }
+  if (
+    parsed.type !== "subscription.created" &&
+    parsed.type !== "subscription.updated"
+  ) {
+    return null;
+  }
+  if (!isRecord(parsed.data)) {
+    return null;
+  }
+
+  const data = parsed.data;
+  const polarSubscriptionId = stringField(data, "id");
+  const polarCustomerId = stringField(data, "customer_id");
+  const status = stringField(data, "status");
+  if (
+    polarSubscriptionId === null ||
+    polarCustomerId === null ||
+    status === null
+  ) {
+    return null;
+  }
+
+  const customer = isRecord(data.customer) ? data.customer : null;
+  const metadata = isRecord(data.metadata) ? data.metadata : null;
+  const referenceValue = metadata?.reference_id;
+  const referenceId =
+    typeof referenceValue === "string"
+      ? referenceValue
+      : typeof referenceValue === "number"
+        ? String(referenceValue)
+        : null;
+
+  return {
+    polarSubscriptionId,
+    polarCustomerId,
+    status,
+    currentPeriodEnd: timeField(data, "current_period_end"),
+    trialEnd: timeField(data, "trial_end"),
+    email: customer === null ? null : stringField(customer, "email"),
+    referenceId,
+    polarProductId: stringField(data, "product_id"),
+  };
+}
+
+function numberField(record: Record<string, unknown>, key: string): number | null {
+  const value = record[key];
+  return typeof value === "number" ? value : null;
+}
+
+function booleanField(record: Record<string, unknown>, key: string): boolean {
+  return record[key] === true;
+}
+
+export function productFromWebhook(body: string): WebhookProduct | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(body);
+  } catch {
+    return null;
+  }
+  if (!isRecord(parsed)) {
+    return null;
+  }
+  if (parsed.type !== "product.created" && parsed.type !== "product.updated") {
+    return null;
+  }
+  if (!isRecord(parsed.data)) {
+    return null;
+  }
+
+  const data = parsed.data;
+  const polarProductId = stringField(data, "id");
+  const name = stringField(data, "name");
+  if (polarProductId === null || name === null) {
+    return null;
+  }
+
+  const prices = Array.isArray(data.prices) ? data.prices : [];
+  const firstPrice = prices.find(isRecord) ?? null;
+
+  return {
+    polarProductId,
+    name,
+    description: stringField(data, "description"),
+    isArchived: booleanField(data, "is_archived"),
+    isRecurring: booleanField(data, "is_recurring"),
+    recurringInterval: stringField(data, "recurring_interval"),
+    priceAmount:
+      firstPrice === null ? null : numberField(firstPrice, "price_amount"),
+    priceCurrency:
+      firstPrice === null ? null : stringField(firstPrice, "price_currency"),
+  };
 }

@@ -18,8 +18,9 @@ import type * as knowledge from "../knowledge.js";
 import type * as lib_access from "../lib/access.js";
 import type * as lib_customFunctions from "../lib/customFunctions.js";
 import type * as lib_entitlement from "../lib/entitlement.js";
-import type * as polar from "../polar.js";
 import type * as polarWebhook from "../polarWebhook.js";
+import type * as products from "../products.js";
+import type * as subscriptions from "../subscriptions.js";
 import type * as users from "../users.js";
 
 import type {
@@ -39,8 +40,9 @@ declare const fullApi: ApiFromModules<{
   "lib/access": typeof lib_access;
   "lib/customFunctions": typeof lib_customFunctions;
   "lib/entitlement": typeof lib_entitlement;
-  polar: typeof polar;
   polarWebhook: typeof polarWebhook;
+  products: typeof products;
+  subscriptions: typeof subscriptions;
   users: typeof users;
 }>;
 
@@ -70,6 +72,4 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {
-  polar: import("@convex-dev/polar/_generated/component.js").ComponentApi<"polar">;
-};
+export declare const components: {};
